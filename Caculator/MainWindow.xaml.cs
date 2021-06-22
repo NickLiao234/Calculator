@@ -21,15 +21,11 @@ namespace Caculator
     public partial class MainWindow : Window
     {
         private CalculateService calculateService;
-        private Dictionary<string, Delegate> MapMethod; 
+        private Dictionary<string, Delegate> MapMethod;
+        private Delegate tempDelegate; 
         public MainWindow()
         {
             InitializeComponent();
-
-            string a = "1.";
-            var b = Convert.ToDouble(a);
-            var c = 0 - b;
-            var d = c.ToString();
 
             calculateService = new CalculateService();
             MapMethod = new Dictionary<string, Delegate>();
@@ -37,7 +33,17 @@ namespace Caculator
             {
                 MapMethod.Add(i.ToString(), new Action<string>(param => calculateService.AppendNumber(param)));
             }
-            MapMethod.Add("+", new Action<string>(c => calculateService.Add()));
+            MapMethod.Add("+", new Action<string>(_ => calculateService.Add()));
+            MapMethod.Add("-", new Action<string>(_ => calculateService.Sub()));
+            MapMethod.Add("*", new Action<string>(_ => calculateService.Multiple()));
+            MapMethod.Add("/", new Action<string>(_ => calculateService.Divide()));
+            MapMethod.Add("C", new Action<string>(_ => calculateService.Clear()));
+            MapMethod.Add("CE", new Action<string>(_ => calculateService.ClearCurrent()));
+            MapMethod.Add("Back", new Action<string>(_ => calculateService.Back()));
+            MapMethod.Add("+-", new Action<string>(_ => calculateService.Reverse()));
+            MapMethod.Add(".", new Action<string>(param => calculateService.AppendNumber(param)));
+
+            tempDelegate = new Action<string>(_ => calculateService.Add());
         }
 
         public void Button_Click(object sender, RoutedEventArgs e)
