@@ -16,20 +16,29 @@ namespace Caculator
 
         private Delegate tempDelegate;
 
+        public CalculateService()
+        {
+            tempDelegate = new Action<string>(a => Add());
+        }
+
         public void AppendNumber(string str)
         {
-            CurrentValue += str;
+            if (str == "0" && CurrentValue == "0")
+            {
+                return;
+            }
+            CurrentValue += str;            
 
         }
 
-        public void Excute(Delegate @delegate)
+        public void Excute(Delegate @delegate, string a)
         {
-            @delegate.DynamicInvoke();
+            @delegate.DynamicInvoke(a);
         }
 
-        public void EcuteTemp(Delegate @delegate)
+        public void ExcuteTemp(Delegate @delegate)
         {
-            tempDelegate.DynamicInvoke();
+            tempDelegate.DynamicInvoke("1");
             tempDelegate = @delegate;
         }
         public void Add()
@@ -52,13 +61,22 @@ namespace Caculator
         }
         public void Divide()
         {
+            if (CurrentValue == "0")
+            {
+                return;
+            }
             var result = Convert.ToDouble(HistoryValue) / Convert.ToDouble(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
         }
         public void Equal()
         {
+            if (CurrentValue != "0")
+            {
+                tempDelegate.DynamicInvoke("1");
+            }
 
+            tempDelegate = new Action<string>(a => Add());
         }
 
         public void Reverse()

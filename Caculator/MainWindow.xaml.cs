@@ -22,35 +22,145 @@ namespace Caculator
     {
         private CalculateService calculateService;
         private Dictionary<string, Delegate> MapMethod;
-        private Delegate tempDelegate; 
+
         public MainWindow()
         {
             InitializeComponent();
 
-            calculateService = new CalculateService();
+            calculateService = (CalculateService)this.DataContext;
             MapMethod = new Dictionary<string, Delegate>();
+            InitMapMethod();
+        }
+
+        private void InitMapMethod()
+        {
             for (int i = 0; i < 10; i++)
             {
-                MapMethod.Add(i.ToString(), new Action<string>(param => calculateService.AppendNumber(param)));
+                MapMethod.Add(
+                    i.ToString(),
+                    new Action<string>(param =>
+                        calculateService.Excute(
+                            new Action<string>(a =>
+                                calculateService.AppendNumber(a)
+                            ),
+                            param
+                        )
+                    )
+                );
             }
-            MapMethod.Add("+", new Action<string>(_ => calculateService.Add()));
-            MapMethod.Add("-", new Action<string>(_ => calculateService.Sub()));
-            MapMethod.Add("*", new Action<string>(_ => calculateService.Multiple()));
-            MapMethod.Add("/", new Action<string>(_ => calculateService.Divide()));
-            MapMethod.Add("C", new Action<string>(_ => calculateService.Clear()));
-            MapMethod.Add("CE", new Action<string>(_ => calculateService.ClearCurrent()));
-            MapMethod.Add("Back", new Action<string>(_ => calculateService.Back()));
-            MapMethod.Add("+-", new Action<string>(_ => calculateService.Reverse()));
-            MapMethod.Add(".", new Action<string>(param => calculateService.AppendNumber(param)));
-
-            tempDelegate = new Action<string>(_ => calculateService.Add());
+            MapMethod.Add(
+                    ".",
+                    new Action<string>(param =>
+                        calculateService.Excute(
+                            new Action<string>(a =>
+                                calculateService.AppendNumber(a)
+                            ),
+                            param
+                        )
+                    )
+                );
+            MapMethod.Add(
+                "+",
+                new Action<string>(
+                    _ => calculateService.ExcuteTemp(
+                         new Action<string>(
+                             _ => calculateService.Add()
+                         )
+                    )
+                )
+            );
+            MapMethod.Add(
+                "-",
+                new Action<string>(
+                    _ => calculateService.ExcuteTemp(
+                         new Action<string>(
+                             _ => calculateService.Sub()
+                         )
+                    )
+                )
+            );
+            MapMethod.Add(
+                "*",
+                new Action<string>(
+                    _ => calculateService.ExcuteTemp(
+                         new Action<string>(
+                             _ => calculateService.Multiple()
+                         )
+                    )
+                )
+            );
+            MapMethod.Add(
+                "/",
+                new Action<string>(
+                    _ => calculateService.ExcuteTemp(
+                         new Action<string>(
+                             _ => calculateService.Divide()
+                         )
+                    )
+                )
+            );
+            MapMethod.Add(
+                "C",
+                new Action<string>(
+                    _ => calculateService.Excute(
+                         new Action<string>(
+                             _ => calculateService.Clear()
+                         ),
+                         null
+                    )
+                )
+            );
+            MapMethod.Add(
+                "CE",
+                new Action<string>(
+                    _ => calculateService.Excute(
+                         new Action<string>(
+                             _ => calculateService.ClearCurrent()
+                         ),
+                         null
+                    )
+                )
+            );
+            MapMethod.Add(
+                "back",
+                new Action<string>(
+                    _ => calculateService.Excute(
+                         new Action<string>(
+                             _ => calculateService.Back()
+                         ),
+                         null
+                    )
+                )
+            );
+            MapMethod.Add(
+                "=",
+                new Action<string>(
+                    _ => calculateService.Excute(
+                         new Action<string>(
+                             _ => calculateService.Equal()
+                         ),
+                         null
+                    )
+                )
+            );
+            MapMethod.Add(
+                "+-",
+                new Action<string>(
+                    _ => calculateService.Excute(
+                         new Action<string>(
+                             _ => calculateService.Reverse()
+                         ),
+                         null
+                    )
+                )
+            );
         }
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
-            var o = (Button)sender;
-            var a = o.Content.ToString();
-            MapMethod[a].DynamicInvoke(a);
+            var button = (Button)sender;
+            var contentString = button.Content.ToString();
+            MapMethod[contentString].DynamicInvoke(contentString);
         }
 
     }

@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:Caculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="300">
+    <Window.DataContext>
+        <local:CalculateService/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
         <TextBlock
-            Grid.Row="0"/>
+            Grid.Row="0"
+            Text="{Binding HistoryValue}"/>
 
         <Grid
             Grid.Row="1">
@@ -35,22 +39,26 @@
                     Grid.Column="0"
                     Margin="2,2,2,2"
                     Content="CE" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="1"
                     Margin="2,2,2,2"
                     Content="C" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="2"
                     Margin="2,2,2,2"
                     Content="back" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="3"
                     Margin="2,2,2,2"
                     Content="/" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
             </Grid>
             <Grid
                 Grid.Row="1">
@@ -64,22 +72,26 @@
                     Grid.Column="0"
                     Margin="2,2,2,2"
                     Content="7" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="1"
                     Margin="2,2,2,2"
                     Content="8" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="2"
                     Margin="2,2,2,2"
                     Content="9" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="3"
                     Margin="2,2,2,2"
                     Content="*" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
             </Grid>
             <Grid
                 Grid.Row="2">
@@ -93,22 +105,26 @@
                     Grid.Column="0"
                     Margin="2,2,2,2"
                     Content="4" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="1"
                     Margin="2,2,2,2"
                     Content="5" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="2"
                     Margin="2,2,2,2"
                     Content="6" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="3"
                     Margin="2,2,2,2"
                     Content="-" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
             </Grid>
             <Grid
                 Grid.Row="3">
@@ -134,7 +150,8 @@
                     Grid.Column="2"
                     Margin="2,2,2,2"
                     Content="3" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="3"
                     Margin="2,2,2,2"
@@ -155,22 +172,26 @@
                     Margin="2,2,2,2"
                     Content="+-" 
                     FontSize="25"
+                    Click="Button_Click"
                     />
                 <Button
                     Grid.Column="1"
                     Margin="2,2,2,2"
                     Content="0" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="2"
                     Margin="2,2,2,2"
                     Content="." 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
                 <Button
                     Grid.Column="3"
                     Margin="2,2,2,2"
                     Content="=" 
-                    FontSize="25"/>
+                    FontSize="25"
+                    Click="Button_Click"/>
             </Grid>
         </Grid>
         
