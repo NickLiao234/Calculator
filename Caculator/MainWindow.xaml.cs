@@ -20,9 +20,19 @@ namespace Caculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 計算機服務實體
+        /// </summary>
         private CalculateService calculateService;
+
+        /// <summary>
+        /// 字串對應委派方法表
+        /// </summary>
         private Dictionary<string, Delegate> MapMethod;
 
+        /// <summary>
+        /// 應用程式初始化
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +42,9 @@ namespace Caculator
             InitMapMethod();
         }
 
+        /// <summary>
+        /// 初始化對應表
+        /// </summary>
         private void InitMapMethod()
         {
             for (int i = 0; i < 10; i++)
@@ -156,12 +169,16 @@ namespace Caculator
             );
         }
 
+        /// <summary>
+        /// 所有button事件
+        /// </summary>
+        /// <param name="sender">按鈕</param>
+        /// <param name="e">參數</param>
         public void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             var contentString = button.Content.ToString();
             MapMethod[contentString].DynamicInvoke(contentString);
         }
-
     }
 }
