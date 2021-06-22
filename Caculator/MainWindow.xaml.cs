@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Caculator
+namespace Calculator
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -52,7 +52,7 @@ namespace Caculator
                 MapMethod.Add(
                     i.ToString(),
                     new Action<string>(param =>
-                        calculateService.Excute(
+                        calculateService.Execute(
                             new Action<string>(a =>
                                 calculateService.AppendNumber(a)
                             ),
@@ -64,7 +64,7 @@ namespace Caculator
             MapMethod.Add(
                     ".",
                     new Action<string>(param =>
-                        calculateService.Excute(
+                        calculateService.Execute(
                             new Action<string>(a =>
                                 calculateService.AppendNumber(a)
                             ),
@@ -75,7 +75,7 @@ namespace Caculator
             MapMethod.Add(
                 "+",
                 new Action<string>(
-                    _ => calculateService.ExcuteTemp(
+                    _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Add()
                          )
@@ -85,7 +85,7 @@ namespace Caculator
             MapMethod.Add(
                 "-",
                 new Action<string>(
-                    _ => calculateService.ExcuteTemp(
+                    _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Sub()
                          )
@@ -95,7 +95,7 @@ namespace Caculator
             MapMethod.Add(
                 "*",
                 new Action<string>(
-                    _ => calculateService.ExcuteTemp(
+                    _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Multiple()
                          )
@@ -105,7 +105,7 @@ namespace Caculator
             MapMethod.Add(
                 "/",
                 new Action<string>(
-                    _ => calculateService.ExcuteTemp(
+                    _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Divide()
                          )
@@ -115,7 +115,7 @@ namespace Caculator
             MapMethod.Add(
                 "C",
                 new Action<string>(
-                    _ => calculateService.Excute(
+                    _ => calculateService.Execute(
                          new Action<string>(
                              _ => calculateService.Clear()
                          ),
@@ -126,7 +126,7 @@ namespace Caculator
             MapMethod.Add(
                 "CE",
                 new Action<string>(
-                    _ => calculateService.Excute(
+                    _ => calculateService.Execute(
                          new Action<string>(
                              _ => calculateService.ClearCurrent()
                          ),
@@ -137,7 +137,7 @@ namespace Caculator
             MapMethod.Add(
                 "back",
                 new Action<string>(
-                    _ => calculateService.Excute(
+                    _ => calculateService.Execute(
                          new Action<string>(
                              _ => calculateService.Back()
                          ),
@@ -148,7 +148,7 @@ namespace Caculator
             MapMethod.Add(
                 "=",
                 new Action<string>(
-                    _ => calculateService.Excute(
+                    _ => calculateService.Execute(
                          new Action<string>(
                              _ => calculateService.Equal()
                          ),
@@ -159,7 +159,7 @@ namespace Caculator
             MapMethod.Add(
                 "+-",
                 new Action<string>(
-                    _ => calculateService.Excute(
+                    _ => calculateService.Execute(
                          new Action<string>(
                              _ => calculateService.Reverse()
                          ),

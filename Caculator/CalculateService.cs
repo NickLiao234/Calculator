@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caculator
+namespace Calculator
 {
     /// <summary>
     /// 計算服務
@@ -41,20 +41,20 @@ namespace Caculator
         }
 
         /// <summary>
-        /// 立刻執行Delegete(for修改運算子)
+        /// 立刻執行Delegete(for修改運算元)
         /// </summary>
         /// <param name="delegate">委派方法</param>
         /// <param name="appendString">加入字元</param>
-        public void Excute(Delegate @delegate, string appendString)
+        public void Execute(Delegate @delegate, string appendString)
         {
             @delegate.DynamicInvoke(appendString);
         }
 
         /// <summary>
-        /// 執行暫存Delegate並將tempDelegate替換(for執行運算元+-*/)
+        /// 執行暫存Delegate並將tempDelegate替換(for執行運算子+-*/)
         /// </summary>
         /// <param name="delegate">委派方法</param>
-        public void ExcuteTemp(Delegate @delegate)
+        public void ExcuteOperator(Delegate @delegate)
         {
             tempDelegate.DynamicInvoke("1");
             tempDelegate = @delegate;
@@ -78,7 +78,7 @@ namespace Caculator
         /// </summary>
         public void Add()
         {
-            var result = Convert.ToDouble(HistoryValue) + Convert.ToDouble(CurrentValue);
+            var result = Convert.ToDecimal(HistoryValue) + Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
         }
@@ -88,7 +88,7 @@ namespace Caculator
         /// </summary>
         public void Sub()
         {
-            var result = Convert.ToDouble(HistoryValue) - Convert.ToDouble(CurrentValue);
+            var result = Convert.ToDecimal(HistoryValue) - Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
         }
@@ -98,7 +98,7 @@ namespace Caculator
         /// </summary>
         public void Multiple()
         {
-            var result = Convert.ToDouble(HistoryValue) * Convert.ToDouble(CurrentValue);
+            var result = Convert.ToDecimal(HistoryValue) * Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
         }
@@ -112,7 +112,7 @@ namespace Caculator
             {
                 return;
             }
-            var result = Convert.ToDouble(HistoryValue) / Convert.ToDouble(CurrentValue);
+            var result = Convert.ToDecimal(HistoryValue) / Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
         }
@@ -131,7 +131,7 @@ namespace Caculator
         }
 
         /// <summary>
-        /// 運算子改回正數或負數
+        /// 運算元改回正數或負數
         /// </summary>
         public void Reverse()
         {
@@ -140,7 +140,7 @@ namespace Caculator
         }
 
         /// <summary>
-        /// 運算子退回一個字元
+        /// 運算元退回一個字元
         /// </summary>
         public void Back()
         {
@@ -162,7 +162,7 @@ namespace Caculator
         }
 
         /// <summary>
-        /// 清除運算子
+        /// 清除運算元
         /// </summary>
         public void ClearCurrent()
         {
