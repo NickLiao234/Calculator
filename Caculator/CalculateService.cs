@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caculator;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace Calculator
         public string CurrentValue { get; set; } = "0";
 
         /// <summary>
+        /// 前一執行步驟
+        /// </summary>
+        private HistoryStep historyStep;
+
+        /// <summary>
         /// INotifyPropertyChanged實作方法
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,11 +39,18 @@ namespace Calculator
         private Delegate tempDelegate;
 
         /// <summary>
+        /// 暫存執行運算元Enum
+        /// </summary>
+        private OperatorEnum tempOperatorEnum;
+
+        /// <summary>
         /// 初始化暫存Delegat為相加
         /// </summary>
         public CalculateService()
         {
             tempDelegate = new Action<string>(a => Add());
+            tempOperatorEnum = OperatorEnum.Add;
+            historyStep = new HistoryStep();
         }
 
         /// <summary>
@@ -54,9 +67,13 @@ namespace Calculator
         /// 執行暫存Delegate並將tempDelegate替換(for執行運算子+-*/)
         /// </summary>
         /// <param name="delegate">委派方法</param>
-        public void ExcuteOperator(Delegate @delegate)
+        /// <param name="operatorEnum">運算元Enum</param>
+        public void ExcuteOperator(Delegate @delegate, OperatorEnum operatorEnum)
         {
             tempDelegate.DynamicInvoke("1");
+            historyStep.Operator = tempDelegate;
+           
+            tempOperatorEnum = operatorEnum;
             tempDelegate = @delegate;
         }
 
@@ -66,10 +83,6 @@ namespace Calculator
         /// <param name="appendString">加入字串</param>
         public void AppendNumber(string appendString)
         {
-            if (appendString == "0" && CurrentValue == "0")
-            {
-                return;
-            }
             CurrentValue += appendString;
         }
 
@@ -78,6 +91,8 @@ namespace Calculator
         /// </summary>
         public void Add()
         {
+            SaveHistoryStep();
+
             var result = Convert.ToDecimal(HistoryValue) + Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
@@ -88,6 +103,8 @@ namespace Calculator
         /// </summary>
         public void Sub()
         {
+            SaveHistoryStep();
+
             var result = Convert.ToDecimal(HistoryValue) - Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
@@ -98,6 +115,16 @@ namespace Calculator
         /// </summary>
         public void Multiple()
         {
+            if (historyStep.OperatorFlag == OperatorEnum.Add || historyStep.OperatorFlag == OperatorEnum.Sub)
+            {
+                var firstStep = Convert.ToDecimal(CurrentValue) * Convert.ToDecimal(historyStep.SecondOperand);
+                HistoryValue = firstStep.ToString();
+                CurrentValue = historyStep.FirstOperand;
+                historyStep.Operator.DynamicInvoke("1");
+
+                return;
+            }
+
             var result = Convert.ToDecimal(HistoryValue) * Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
@@ -112,9 +139,29 @@ namespace Calculator
             {
                 return;
             }
+
+            if (historyStep.OperatorFlag == OperatorEnum.Add || historyStep.OperatorFlag == OperatorEnum.Sub)
+            {
+                var firstStep = Convert.ToDecimal(CurrentValue) / Convert.ToDecimal(historyStep.SecondOperand);
+                HistoryValue = firstStep.ToString();
+                CurrentValue = historyStep.FirstOperand;
+                historyStep.Operator.DynamicInvoke("1");
+
+                return;
+            }
+           
             var result = Convert.ToDecimal(HistoryValue) / Convert.ToDecimal(CurrentValue);
             HistoryValue = result.ToString();
             CurrentValue = "0";
+        }
+
+        /// <summary>
+        /// 儲存運算元至歷史步驟
+        /// </summary>
+        private void SaveHistoryStep()
+        {
+            historyStep.FirstOperand = HistoryValue;
+            historyStep.SecondOperand = CurrentValue;
         }
 
         /// <summary>
@@ -122,11 +169,8 @@ namespace Calculator
         /// </summary>
         public void Equal()
         {
-            if (CurrentValue != "0")
-            {
-                tempDelegate.DynamicInvoke("1");
-            }
-
+            tempDelegate.DynamicInvoke("1");
+            historyStep.Operator = null;
             tempDelegate = new Action<string>(a => Add());
         }
 
@@ -168,5 +212,5 @@ namespace Calculator
         {
             CurrentValue = "0";
         }
-    }
+    }   
 }

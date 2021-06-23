@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caculator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,7 +79,8 @@ namespace Calculator
                     _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Add()
-                         )
+                         ),
+                         OperatorEnum.Add
                     )
                 )
             );
@@ -88,7 +90,8 @@ namespace Calculator
                     _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Sub()
-                         )
+                         ),
+                         OperatorEnum.Sub
                     )
                 )
             );
@@ -98,7 +101,8 @@ namespace Calculator
                     _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Multiple()
-                         )
+                         ),
+                         OperatorEnum.Multiple
                     )
                 )
             );
@@ -108,7 +112,8 @@ namespace Calculator
                     _ => calculateService.ExcuteOperator(
                          new Action<string>(
                              _ => calculateService.Divide()
-                         )
+                         ),
+                         OperatorEnum.Divide
                     )
                 )
             );
