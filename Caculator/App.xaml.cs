@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Caculator.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,6 +37,15 @@ namespace Calculator
         private void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<CalculatorViewModel>();
+            services.AddSingleton<IAddService, AddService>();
+            services.AddSingleton<ISubService, SubService>();
+            services.AddSingleton<IMultipleService, MultipleService>();
+            services.AddSingleton<IDivideService, DivideService>();
+            services.AddSingleton<IAppendNumberService, AppendNumberService>();
+            services.AddSingleton<IBackService, BackService>();
+            services.AddSingleton<IClearService, ClearService>();
+            services.AddSingleton<IClearCurrentService, ClearCurrentService>();
+            services.AddSingleton<IReverseService, ReverseService>();
             services.AddSingleton<MainWindow>();
         }
 

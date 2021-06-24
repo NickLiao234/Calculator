@@ -1,4 +1,5 @@
 ﻿using Caculator;
+using Caculator.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,52 @@ namespace Calculator
         /// <summary>
         /// 計算機服務實體
         /// </summary>
-        private CalculatorViewModel calculateService;
+        private CalculatorViewModel calculateViewmodel;
+
+        /// <summary>
+        /// 加法服務
+        /// </summary>
+        private readonly IAddService addService;
+
+        /// <summary>
+        /// 減法服務
+        /// </summary>
+        private readonly ISubService subService;
+
+        /// <summary>
+        /// 乘法服務
+        /// </summary>
+        private readonly IMultipleService multipleService;
+
+        /// <summary>
+        /// 除法服務
+        /// </summary>
+        private readonly IDivideService divideService;
+
+        /// <summary>
+        /// 倒退服務
+        /// </summary>
+        private readonly IBackService backService;
+
+        /// <summary>
+        /// 清除目前運算子服務
+        /// </summary>
+        private readonly IClearCurrentService clearCurrentService;
+
+        /// <summary>
+        /// 清除運算式服務
+        /// </summary>
+        private readonly IClearService clearService;
+
+        /// <summary>
+        /// 修改正負號服務
+        /// </summary>
+        private readonly IReverseService reverseService;
+
+        /// <summary>
+        /// 加入字元服務
+        /// </summary>
+        private readonly IAppendNumberService appendNumberService;
 
         /// <summary>
         /// 字串對應委派方法表
@@ -34,16 +80,43 @@ namespace Calculator
         /// <summary>
         /// 應用程式初始化
         /// </summary>
-        public MainWindow(CalculatorViewModel calculateService)
+        /// <param name="calculateViewmodel">viewmodel</param>
+        /// <param name="addService">加法服務</param>
+        /// <param name="subService">減法服務</param>
+        /// <param name="multipleService">乘法服務</param>
+        /// <param name="divideService">除法服務</param>
+        /// <param name="backService">倒退服務</param>
+        /// <param name="clearCurrentService">清除目前運算子服務</param>
+        /// <param name="clearService">清除所有運算服務</param>
+        /// <param name="reverseService">修改正負號服務</param>
+        /// <param name="appendNumberService">加入字元服務</param>
+        public MainWindow(
+            CalculatorViewModel calculateViewmodel,
+            IAddService addService,
+            ISubService subService,
+            IMultipleService multipleService,
+            IDivideService divideService,
+            IBackService backService,
+            IClearCurrentService clearCurrentService,
+            IClearService clearService,
+            IReverseService reverseService,
+            IAppendNumberService appendNumberService)
         {
-            this.calculateService = calculateService;
-
+            this.calculateViewmodel = calculateViewmodel;
+            this.addService = addService;
+            this.subService = subService;
+            this.multipleService = multipleService;
+            this.divideService = divideService;
+            this.backService = backService;
+            this.clearCurrentService = clearCurrentService;
+            this.clearService = clearService;
+            this.reverseService = reverseService;
+            this.appendNumberService = appendNumberService;
             InitializeComponent();
 
-            DataContext = calculateService;
+            DataContext = calculateViewmodel;
             MapMethod = new Dictionary<string, Delegate>();
             InitMapMethod();
-
         }
 
         /// <summary>
@@ -56,9 +129,9 @@ namespace Calculator
                 MapMethod.Add(
                     i.ToString(),
                     new Action<string>(param =>
-                        calculateService.Execute(
+                        calculateViewmodel.Execute(
                             new Action<string>(a =>
-                                calculateService.AppendNumber(a)
+                                calculateViewmodel.AppendNumber(a)
                             ),
                             param
                         )
@@ -68,9 +141,9 @@ namespace Calculator
             MapMethod.Add(
                     ".",
                     new Action<string>(param =>
-                        calculateService.Execute(
+                        calculateViewmodel.Execute(
                             new Action<string>(a =>
-                                calculateService.AppendNumber(a)
+                                calculateViewmodel.AppendNumber(a)
                             ),
                             param
                         )
@@ -79,9 +152,9 @@ namespace Calculator
             MapMethod.Add(
                 "+",
                 new Action<string>(
-                    _ => calculateService.ExcuteOperator(
+                    _ => calculateViewmodel.ExcuteOperator(
                          new Action<string>(
-                             _ => calculateService.Add()
+                             _ => calculateViewmodel.Add()
                          ),
                          OperatorEnum.Add
                     )
@@ -90,9 +163,9 @@ namespace Calculator
             MapMethod.Add(
                 "-",
                 new Action<string>(
-                    _ => calculateService.ExcuteOperator(
+                    _ => calculateViewmodel.ExcuteOperator(
                          new Action<string>(
-                             _ => calculateService.Sub()
+                             _ => calculateViewmodel.Sub()
                          ),
                          OperatorEnum.Sub
                     )
@@ -101,9 +174,9 @@ namespace Calculator
             MapMethod.Add(
                 "*",
                 new Action<string>(
-                    _ => calculateService.ExcuteOperator(
+                    _ => calculateViewmodel.ExcuteOperator(
                          new Action<string>(
-                             _ => calculateService.Multiple()
+                             _ => calculateViewmodel.Multiple()
                          ),
                          OperatorEnum.Multiple
                     )
@@ -112,9 +185,9 @@ namespace Calculator
             MapMethod.Add(
                 "/",
                 new Action<string>(
-                    _ => calculateService.ExcuteOperator(
+                    _ => calculateViewmodel.ExcuteOperator(
                          new Action<string>(
-                             _ => calculateService.Divide()
+                             _ => calculateViewmodel.Divide()
                          ),
                          OperatorEnum.Divide
                     )
@@ -123,9 +196,9 @@ namespace Calculator
             MapMethod.Add(
                 "C",
                 new Action<string>(
-                    _ => calculateService.Execute(
+                    _ => calculateViewmodel.Execute(
                          new Action<string>(
-                             _ => calculateService.Clear()
+                             _ => calculateViewmodel.Clear()
                          ),
                          null
                     )
@@ -134,9 +207,9 @@ namespace Calculator
             MapMethod.Add(
                 "CE",
                 new Action<string>(
-                    _ => calculateService.Execute(
+                    _ => calculateViewmodel.Execute(
                          new Action<string>(
-                             _ => calculateService.ClearCurrent()
+                             _ => calculateViewmodel.ClearCurrent()
                          ),
                          null
                     )
@@ -145,9 +218,9 @@ namespace Calculator
             MapMethod.Add(
                 "back",
                 new Action<string>(
-                    _ => calculateService.Execute(
+                    _ => calculateViewmodel.Execute(
                          new Action<string>(
-                             _ => calculateService.Back()
+                             _ => calculateViewmodel.Back()
                          ),
                          null
                     )
@@ -156,9 +229,9 @@ namespace Calculator
             MapMethod.Add(
                 "=",
                 new Action<string>(
-                    _ => calculateService.Execute(
+                    _ => calculateViewmodel.Execute(
                          new Action<string>(
-                             _ => calculateService.Equal()
+                             _ => calculateViewmodel.Equal()
                          ),
                          null
                     )
@@ -167,9 +240,9 @@ namespace Calculator
             MapMethod.Add(
                 "+-",
                 new Action<string>(
-                    _ => calculateService.Execute(
+                    _ => calculateViewmodel.Execute(
                          new Action<string>(
-                             _ => calculateService.Reverse()
+                             _ => calculateViewmodel.Reverse()
                          ),
                          null
                     )
