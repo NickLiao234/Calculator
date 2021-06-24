@@ -11,7 +11,7 @@ namespace Calculator
     /// <summary>
     /// 計算服務
     /// </summary>
-    public class CalculateService : INotifyPropertyChanged
+    public class CalculatorViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 已計算過數值
@@ -46,7 +46,7 @@ namespace Calculator
         /// <summary>
         /// 初始化暫存Delegat為相加
         /// </summary>
-        public CalculateService()
+        public CalculatorViewModel()
         {
             tempDelegate = new Action<string>(a => Add());
             tempOperatorEnum = OperatorEnum.Add;

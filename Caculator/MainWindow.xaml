@@ -10,7 +10,7 @@
         <local:DisplayValueConverter x:Key="converter"/>
     </Window.Resources>
     <Window.DataContext>
-        <local:CalculateService/>
+        <local:CalculatorViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>

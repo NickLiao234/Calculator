@@ -35,6 +35,7 @@ namespace Calculator
         /// <param name="services">service collection</param>
         private void ConfigureServices(ServiceCollection services)
         {
+            services.AddSingleton<CalculatorViewModel>();
             services.AddSingleton<MainWindow>();
         }
 

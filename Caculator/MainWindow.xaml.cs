@@ -24,7 +24,7 @@ namespace Calculator
         /// <summary>
         /// 計算機服務實體
         /// </summary>
-        private CalculateService calculateService;
+        private CalculatorViewModel calculateService;
 
         /// <summary>
         /// 字串對應委派方法表
@@ -34,13 +34,16 @@ namespace Calculator
         /// <summary>
         /// 應用程式初始化
         /// </summary>
-        public MainWindow()
+        public MainWindow(CalculatorViewModel calculateService)
         {
+            this.calculateService = calculateService;
+
             InitializeComponent();
 
-            calculateService = (CalculateService)this.DataContext;
+            DataContext = calculateService;
             MapMethod = new Dictionary<string, Delegate>();
             InitMapMethod();
+
         }
 
         /// <summary>
