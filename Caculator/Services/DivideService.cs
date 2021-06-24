@@ -31,12 +31,21 @@ namespace Caculator.Services
         /// </summary>
         public void Divide()
         {
-            if (viewModel.CurrentValue == "0")
+            if (viewModel.IsCurrentEdited())
             {
                 return;
             }
 
-            var result = Convert.ToDecimal(viewModel.HistoryValue) / Convert.ToDecimal(viewModel.CurrentValue);
+            decimal result;
+            try
+            {
+                result = Convert.ToDecimal(viewModel.HistoryValue) / Convert.ToDecimal(viewModel.CurrentValue);
+            }
+            catch (Exception)
+            {
+                throw new Exception("無法執行除法");
+            }
+            
             viewModel.HistoryValue = result.ToString();
             viewModel.CurrentValue = "0";
         }

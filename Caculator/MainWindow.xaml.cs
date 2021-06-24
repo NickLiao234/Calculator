@@ -1,4 +1,5 @@
 ﻿using Caculator;
+using Caculator.Objects;
 using Caculator.Services;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace Calculator
         /// <summary>
         /// 字串對應委派方法表
         /// </summary>
-        private Dictionary<string, Delegate> MapMethod;
+        private Dictionary<string, ButtonBase> MapMethod;
 
         /// <summary>
         /// 應用程式初始化
@@ -115,7 +116,7 @@ namespace Calculator
             InitializeComponent();
 
             DataContext = calculateViewmodel;
-            MapMethod = new Dictionary<string, Delegate>();
+            MapMethod = new Dictionary<string, ButtonBase>();
             InitMapMethod();
         }
 
@@ -124,130 +125,25 @@ namespace Calculator
         /// </summary>
         private void InitMapMethod()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                MapMethod.Add(
-                    i.ToString(),
-                    new Action<string>(param =>
-                        calculateViewmodel.Execute(
-                            new Action<string>(a =>
-                                calculateViewmodel.AppendNumber(a)
-                            ),
-                            param
-                        )
-                    )
-                );
-            }
-            MapMethod.Add(
-                    ".",
-                    new Action<string>(param =>
-                        calculateViewmodel.Execute(
-                            new Action<string>(a =>
-                                calculateViewmodel.AppendNumber(a)
-                            ),
-                            param
-                        )
-                    )
-                );
-            MapMethod.Add(
-                "+",
-                new Action<string>(
-                    _ => calculateViewmodel.ExcuteOperator(
-                         new Action<string>(
-                             _ => calculateViewmodel.Add()
-                         ),
-                         OperatorEnum.Add
-                    )
-                )
-            );
-            MapMethod.Add(
-                "-",
-                new Action<string>(
-                    _ => calculateViewmodel.ExcuteOperator(
-                         new Action<string>(
-                             _ => calculateViewmodel.Sub()
-                         ),
-                         OperatorEnum.Sub
-                    )
-                )
-            );
-            MapMethod.Add(
-                "*",
-                new Action<string>(
-                    _ => calculateViewmodel.ExcuteOperator(
-                         new Action<string>(
-                             _ => calculateViewmodel.Multiple()
-                         ),
-                         OperatorEnum.Multiple
-                    )
-                )
-            );
-            MapMethod.Add(
-                "/",
-                new Action<string>(
-                    _ => calculateViewmodel.ExcuteOperator(
-                         new Action<string>(
-                             _ => calculateViewmodel.Divide()
-                         ),
-                         OperatorEnum.Divide
-                    )
-                )
-            );
-            MapMethod.Add(
-                "C",
-                new Action<string>(
-                    _ => calculateViewmodel.Execute(
-                         new Action<string>(
-                             _ => calculateViewmodel.Clear()
-                         ),
-                         null
-                    )
-                )
-            );
-            MapMethod.Add(
-                "CE",
-                new Action<string>(
-                    _ => calculateViewmodel.Execute(
-                         new Action<string>(
-                             _ => calculateViewmodel.ClearCurrent()
-                         ),
-                         null
-                    )
-                )
-            );
-            MapMethod.Add(
-                "back",
-                new Action<string>(
-                    _ => calculateViewmodel.Execute(
-                         new Action<string>(
-                             _ => calculateViewmodel.Back()
-                         ),
-                         null
-                    )
-                )
-            );
-            MapMethod.Add(
-                "=",
-                new Action<string>(
-                    _ => calculateViewmodel.Execute(
-                         new Action<string>(
-                             _ => calculateViewmodel.Equal()
-                         ),
-                         null
-                    )
-                )
-            );
-            MapMethod.Add(
-                "+-",
-                new Action<string>(
-                    _ => calculateViewmodel.Execute(
-                         new Action<string>(
-                             _ => calculateViewmodel.Reverse()
-                         ),
-                         null
-                    )
-                )
-            );
+            MapMethod.Add("0", new ButtonZero(appendNumberService));
+            MapMethod.Add("1", new ButtonOne(appendNumberService));
+            MapMethod.Add("2", new ButtonTwo(appendNumberService));
+            MapMethod.Add("3", new ButtonThree(appendNumberService));
+            MapMethod.Add("4", new ButtonFour(appendNumberService));
+            MapMethod.Add("5", new ButtonFive(appendNumberService));
+            MapMethod.Add("6", new ButtonSix(appendNumberService));
+            MapMethod.Add("7", new ButtonSeven(appendNumberService));
+            MapMethod.Add("8", new ButtonEight(appendNumberService));
+            MapMethod.Add("9", new ButtonNine(appendNumberService));
+            MapMethod.Add(".", new ButtonDot(appendNumberService));
+            MapMethod.Add("+-", new ButtonReverse(reverseService));
+            MapMethod.Add("C", new ButtonClear(clearService));
+            MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
+            MapMethod.Add("Back", new ButtonBack(backService));
+            MapMethod.Add("+", new ButtonAdd(addService));
+            MapMethod.Add("-", new ButtonSub(subService));
+            MapMethod.Add("*", new ButtonMultiple(multipleService));
+            MapMethod.Add("/", new ButtonDivide(divideService));
         }
 
         /// <summary>
@@ -259,7 +155,7 @@ namespace Calculator
         {
             var button = (Button)sender;
             var contentString = button.Content.ToString();
-            MapMethod[contentString].DynamicInvoke(contentString);
+            MapMethod[contentString].Excute();
         }
     }
 }

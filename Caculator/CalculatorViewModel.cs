@@ -54,6 +54,20 @@ namespace Calculator
         }
 
         /// <summary>
+        /// CurrentValue是否異曾經動過
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCurrentEdited()
+        {
+            if (CurrentValue == "0")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// 立刻執行Delegete(for修改運算元)
         /// </summary>
         /// <param name="delegate">委派方法</param>

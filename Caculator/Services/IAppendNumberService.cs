@@ -14,6 +14,7 @@ namespace Caculator.Services
         /// <summary>
         /// 加入字元方法
         /// </summary>
-        public void Append();
+        /// <param name="appendString">加入字元</param>
+        public void Append(string appendString);
     }
 }

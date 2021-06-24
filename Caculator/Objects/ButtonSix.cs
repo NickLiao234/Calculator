@@ -1,0 +1,42 @@
+﻿using Caculator.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Caculator.Objects
+{
+    /// <summary>
+    /// 按鈕6
+    /// </summary>
+    public class ButtonSix : ButtonBase
+    {
+        /// <summary>
+        /// appendService
+        /// </summary>
+        private readonly IAppendNumberService appendNumberService;
+
+        /// <summary>
+        /// 按鈕字元
+        /// </summary>
+        private const string value = "6";
+
+        /// <summary>
+        /// 建構式注入appendService
+        /// </summary>
+        /// <param name="appendNumberService">appendNumberService</param>
+        public ButtonSix(IAppendNumberService appendNumberService)
+        {
+            this.appendNumberService = appendNumberService;
+        }
+
+        /// <summary>
+        /// 執行方法
+        /// </summary>
+        public override void Excute()
+        {
+            appendNumberService.Append(value);
+        }
+    }
+}

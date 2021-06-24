@@ -15,7 +15,7 @@ namespace Caculator.Services
         /// <summary>
         /// viewmodel
         /// </summary>
-        private readonly CalculatorViewModel _viewModel;
+        private readonly CalculatorViewModel viewModel;
 
         /// <summary>
         /// 建構式注入viewmodel
@@ -23,7 +23,7 @@ namespace Caculator.Services
         /// <param name="viewModel">viewmodel</param>
         public AddService(CalculatorViewModel viewModel)
         {
-            _viewModel = viewModel;
+            this.viewModel = viewModel;
         }
 
         /// <summary>
@@ -31,9 +31,14 @@ namespace Caculator.Services
         /// </summary>
         public void Add()
         {
-            var result = Convert.ToDecimal(_viewModel.HistoryValue) + Convert.ToDecimal(_viewModel.CurrentValue);
-            _viewModel.HistoryValue = result.ToString();
-            _viewModel.CurrentValue = "0";
+            if (!viewModel.IsCurrentEdited())
+            {
+                return;
+            }
+
+            var result = Convert.ToDecimal(viewModel.HistoryValue) + Convert.ToDecimal(viewModel.CurrentValue);
+            viewModel.HistoryValue = result.ToString();
+            viewModel.CurrentValue = "0";
         }
     }
 }

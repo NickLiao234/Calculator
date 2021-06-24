@@ -31,6 +31,11 @@ namespace Caculator.Services
         /// </summary>
         public void Sub()
         {
+            if (!viewModel.IsCurrentEdited())
+            {
+                return;
+            }
+
             var result = Convert.ToDecimal(viewModel.HistoryValue) - Convert.ToDecimal(viewModel.CurrentValue);
             viewModel.HistoryValue = result.ToString();
             viewModel.CurrentValue = "0";
