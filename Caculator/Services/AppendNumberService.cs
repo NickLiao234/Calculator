@@ -32,6 +32,10 @@ namespace Caculator.Services
         /// <param name="appendString">欲加入字元</param>
         public void Append(string appendString)
         {
+            if (viewModel.CurrentValue.Contains(".") && appendString == ".")
+            {
+                return;
+            }
             viewModel.CurrentValue += appendString;
         }
     }

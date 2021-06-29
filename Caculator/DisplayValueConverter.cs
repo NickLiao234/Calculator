@@ -28,9 +28,17 @@ namespace Calculator
                 return value;
             }
 
-            var result = System.Convert.ToDecimal(value);
-
-            return result;
+            decimal result;
+            bool success = decimal.TryParse(value.ToString(), out result);
+            if (success)
+            {
+                return result;
+            }
+            else
+            {
+                result = 0;
+                return result;
+            }
         }
 
         /// <summary>

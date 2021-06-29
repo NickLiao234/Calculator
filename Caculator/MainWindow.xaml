@@ -27,7 +27,7 @@
                 Grid.Row="0"
                 x:Name="HistoryValue"
                 TextAlignment="Right"
-                Text="{Binding HistoryValue, Converter={StaticResource converter}}" 
+                Text="{Binding HistoryValue}" 
                 FontSize="25"/>
             <TextBlock 
                 Grid.Row="1"

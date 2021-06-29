@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Caculator.Objects
 {
     /// <summary>
-    /// 按鈕7
+    /// 運算子按鈕
     /// </summary>
-    public class ButtonSeven : ButtonBase
+    public class ButtonOperand : ButtonBase
     {
         /// <summary>
         /// appendService
@@ -20,14 +20,16 @@ namespace Caculator.Objects
         /// <summary>
         /// 按鈕字元
         /// </summary>
-        private const string value = "7";
+        private string value;
 
         /// <summary>
-        /// 建構式注入appendService
+        /// 建構式注入appendService並初始化顯示值
         /// </summary>
+        /// <param name="value">顯示值</param>
         /// <param name="appendNumberService">appendNumberService</param>
-        public ButtonSeven(IAppendNumberService appendNumberService)
+        public ButtonOperand(string value, IAppendNumberService appendNumberService)
         {
+            this.value = value;
             this.appendNumberService = appendNumberService;
         }
 

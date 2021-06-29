@@ -36,11 +36,9 @@ namespace Calculator
         /// <param name="services">service collection</param>
         private void ConfigureServices(ServiceCollection services)
         {
+            services.AddSingleton<ICalculateExpressionService, CalculateExpressionService>();
+            services.AddSingleton<IEditViewModelService, EditViewModelService>();
             services.AddSingleton<CalculatorViewModel>();
-            services.AddSingleton<IAddService, AddService>();
-            services.AddSingleton<ISubService, SubService>();
-            services.AddSingleton<IMultipleService, MultipleService>();
-            services.AddSingleton<IDivideService, DivideService>();
             services.AddSingleton<IAppendNumberService, AppendNumberService>();
             services.AddSingleton<IBackService, BackService>();
             services.AddSingleton<IClearService, ClearService>();

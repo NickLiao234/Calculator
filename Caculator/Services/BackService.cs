@@ -34,6 +34,7 @@ namespace Caculator.Services
             if (viewModel.CurrentValue.Length == 1)
             {
                 viewModel.CurrentValue = "0";
+                return;
             }
 
             viewModel.CurrentValue = viewModel.CurrentValue.Remove(viewModel.CurrentValue.Length - 1);
