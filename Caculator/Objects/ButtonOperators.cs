@@ -20,11 +20,6 @@ namespace Caculator.Objects
         private readonly string value;
 
         /// <summary>
-        /// 表達式類別型態
-        /// </summary>
-        private readonly Type type;
-
-        /// <summary>
         /// EditViewModelService
         /// </summary>
         private readonly IEditViewModelService modelService;
@@ -38,17 +33,14 @@ namespace Caculator.Objects
         /// 初始化
         /// </summary>
         /// <param name="value">顯示值</param>
-        /// <param name="type">類別型態</param>
         /// <param name="modelService">EditViewModelService</param>
         /// <param name="calculateExpressionService">calculateExpressionService</param>
         public ButtonOperators(
-            string value, 
-            Type type, 
+            string value,  
             IEditViewModelService modelService,
             ICalculateExpressionService calculateExpressionService)
         {
             this.value = value;
-            this.type = type;
             this.modelService = modelService;
             this.calculateExpressionService = calculateExpressionService;
         }
@@ -58,10 +50,10 @@ namespace Caculator.Objects
         /// </summary>
         public override void Excute()
         {
-            modelService.PushOperand();
-            var result = calculateExpressionService.GetResult();
-            modelService.SetHistoryValue(result);
-            modelService.PushOperator(value, type);
+            modelService.AddOperand();
+            //var result = calculateExpressionService.GetResult();
+            //modelService.SetHistoryValue(result);
+            modelService.AddOperator(value);
             modelService.ClearCurrentValue();
         }
     }

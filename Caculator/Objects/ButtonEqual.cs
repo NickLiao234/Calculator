@@ -49,7 +49,7 @@ namespace Caculator.Objects
         /// </summary>
         public override void Excute()
         {
-            editViewModelService.PushOperand();
+            editViewModelService.AddOperand();
             var result = calculateExpressionService.GetResult();
             clearService.Clear();
             editViewModelService.SetHistoryValue(result);

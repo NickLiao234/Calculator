@@ -15,14 +15,14 @@ namespace Caculator.Services
         /// <summary>
         /// 運算子插入堆疊
         /// </summary>
-        public void PushOperand();
+        public void AddOperand();
 
         /// <summary>
         /// 運算元插入堆疊
         /// </summary>
         /// <param name="value">顯示值</param>
         /// <param name="type">運算元類別型態</param>
-        public void PushOperator(string value, Type type);
+        public void AddOperator(string value);
 
         /// <summary>
         /// 設定運算結果值

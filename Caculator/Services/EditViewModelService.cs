@@ -28,57 +28,53 @@ namespace Caculator.Services
         }
 
         /// <summary>
-        /// 運算子插入堆疊
+        /// 運算元加入表達式
         /// </summary>
-        public void PushOperand()
+        public void AddOperand()
         {
-            var oprand = new OperandElement(viewModel.CurrentValue);
+            var oprand = Convert.ToDecimal(viewModel.CurrentValue).ToString();
 
             if (!viewModel.IsCurrentEdited())
             {
-                viewModel.ExpressionStack.Pop();
+                viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
                 return;
             }
 
-            if (viewModel.ExpressionStack.Count == 0)
+            if (viewModel.Expression.Count == 0)
             {
-                viewModel.ExpressionStack.Push(oprand);
+                viewModel.Expression.Add(oprand);
                 return;
             }
 
-            var popOutObject = viewModel.ExpressionStack.Peek();
-            if (IsOperand(popOutObject))
+            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+            if (IsOperand(lastElement))
             {
                 return;
             }
 
-            viewModel.ExpressionStack.Push(oprand);
+            viewModel.Expression.Add(oprand);
         }
 
         /// <summary>
-        /// 運算元插入堆疊
+        /// 運算子加入表達式
         /// </summary>
         /// <param name="value">顯示值</param>
         /// <param name="type">運算元類別型態</param>
-        public void PushOperator(string value, Type type)
+        public void AddOperator(string value)
         {
-            if (viewModel.ExpressionStack.Count == 0)
+            if (viewModel.Expression.Count == 0)
             {
                 return;
             }
 
-            var stackFirstObject = viewModel.ExpressionStack.Peek();
-            if (!IsOperand(stackFirstObject))
+            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+            if (!IsOperand(lastElement))
             {
-                viewModel.ExpressionStack.Pop();
+                viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
                 return;
             }
 
-            object[] args = { value };
-
-            OperatorElement element = (OperatorElement)Activator.CreateInstance(type, args);
-
-            viewModel.ExpressionStack.Push(element);
+            viewModel.Expression.Add(value);
         }
 
         /// <summary>
@@ -110,13 +106,12 @@ namespace Caculator.Services
         /// <summary>
         /// 判斷是否為運算子方法
         /// </summary>
-        /// <param name="popOutObject">stack pop第一個物件</param>
+        /// <param name="lastElement">stack pop第一個物件</param>
         /// <returns></returns>
-        private bool IsOperand(CalculateElementBase popOutObject)
+        private bool IsOperand(string lastElement)
         {
-            OperandElement operand = popOutObject as OperandElement;
-
-            if (operand is null)
+            var listOperator = new List<string>() { "+", "-", "*", "/" };
+            if (listOperator.Contains(lastElement))
             {
                 return false;
             }

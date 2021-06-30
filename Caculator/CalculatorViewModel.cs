@@ -14,6 +14,8 @@ namespace Calculator
     /// </summary>
     public class CalculatorViewModel : INotifyPropertyChanged
     {
+        public List<string> Expression { get; set; }
+
         /// <summary>
         /// 表達式堆疊
         /// </summary>
@@ -39,6 +41,7 @@ namespace Calculator
         /// </summary>
         public CalculatorViewModel()
         {
+            Expression = new List<string>();
             ExpressionStack = new Stack<CalculateElementBase>();
             HistoryValue = "0";
             CurrentValue = "0";

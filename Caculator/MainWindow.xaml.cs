@@ -114,10 +114,10 @@ namespace Calculator
             MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
             MapMethod.Add("back", new ButtonBack(backService));
             MapMethod.Add("=", new ButtonEqual(editModelService, calculateExpressionService, clearService));
-            MapMethod.Add("+", new ButtonOperators("+", typeof(AddElement), editModelService, calculateExpressionService));
-            MapMethod.Add("-", new ButtonOperators("-", typeof(SubElement), editModelService, calculateExpressionService));
-            MapMethod.Add("*", new ButtonOperators("*", typeof(MultipleElement), editModelService, calculateExpressionService));
-            MapMethod.Add("/", new ButtonOperators("/", typeof(DivideElement), editModelService, calculateExpressionService));
+            MapMethod.Add("+", new ButtonOperators("+", editModelService, calculateExpressionService));
+            MapMethod.Add("-", new ButtonOperators("-", editModelService, calculateExpressionService));
+            MapMethod.Add("*", new ButtonOperators("*", editModelService, calculateExpressionService));
+            MapMethod.Add("/", new ButtonOperators("/", editModelService, calculateExpressionService));
         }
 
         /// <summary>
