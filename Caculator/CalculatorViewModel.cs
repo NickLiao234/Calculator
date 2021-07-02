@@ -16,6 +16,8 @@ namespace Calculator
     {
         public List<string> Expression { get; set; }
 
+        public string PostFix { get; set; }
+
         /// <summary>
         /// 表達式堆疊
         /// </summary>
@@ -45,6 +47,7 @@ namespace Calculator
             ExpressionStack = new Stack<CalculateElementBase>();
             HistoryValue = "0";
             CurrentValue = "0";
+            PostFix = null;
         }
 
         /// <summary>

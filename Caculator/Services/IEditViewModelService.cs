@@ -50,5 +50,7 @@ namespace Caculator.Services
         /// 清除目前運算子
         /// </summary>
         public void ClearCurrentValue();
+
+        public void SetPostfixValue(string value);
     }
 }

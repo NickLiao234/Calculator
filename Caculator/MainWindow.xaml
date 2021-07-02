@@ -42,7 +42,7 @@
                 Grid.Row="2"
                 x:Name="PostfixValue"
                 TextAlignment="Right"
-                Text="{Binding HistoryValue}" 
+                Text="{Binding PostFix}" 
                 FontSize="15"/>
             <TextBlock 
                 Grid.Row="3"

@@ -36,6 +36,12 @@ namespace Calculator
         /// <param name="services">service collection</param>
         private void ConfigureServices(ServiceCollection services)
         {
+            services.AddHttpClient("CalculateService", c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:5001/Calculate/");
+            });
+
+            services.AddSingleton<IGetResultByWebAPIService, GetResultByWebAPIService>();
             services.AddSingleton<ICalculateExpressionService, CalculateExpressionService>();
             services.AddSingleton<IEditViewModelService, EditViewModelService>();
             services.AddSingleton<CalculatorViewModel>();

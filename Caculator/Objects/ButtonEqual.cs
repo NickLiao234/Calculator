@@ -26,6 +26,7 @@ namespace Caculator.Objects
         /// clearService
         /// </summary>
         private readonly IClearService clearService;
+        private readonly IGetResultByWebAPIService getResultByWebAPIService;
 
         /// <summary>
         /// 初始化注入服務
@@ -36,26 +37,31 @@ namespace Caculator.Objects
         public ButtonEqual(
             IEditViewModelService editViewModelService,
             ICalculateExpressionService calculateExpressionService,
-            IClearService clearService
+            IClearService clearService,
+            IGetResultByWebAPIService getResultByWebAPIService
             )
         {
             this.editViewModelService = editViewModelService;
             this.calculateExpressionService = calculateExpressionService;
             this.clearService = clearService;
+            this.getResultByWebAPIService = getResultByWebAPIService;
         }
 
         /// <summary>
         /// 執行方法
         /// </summary>
-        public override void Excute()
+        public override async void Excute()
         {
             editViewModelService.AddOperand();
             //TODO Check if "(" count == ")" count true: getresult else add ")" count = "(" count
 
-            var result = calculateExpressionService.GetResult();
+            //var result = calculateExpressionService.GetResult();
+            var result = await getResultByWebAPIService.GetResultAsync();
+            var postfix = await getResultByWebAPIService.GetPostfixAsync();
             clearService.Clear();
             editViewModelService.SetHistoryValue(result);
             editViewModelService.SetCurrentValue(result.ToString());
+            editViewModelService.SetPostfixValue(postfix);
         }
     }
 }

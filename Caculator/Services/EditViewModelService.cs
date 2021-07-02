@@ -145,6 +145,11 @@ namespace Caculator.Services
             viewModel.CurrentValue = value;
         }
 
+        public void SetPostfixValue(string value)
+        {
+            viewModel.PostFix = value;
+        }
+
         /// <summary>
         /// 判斷是否為運算元方法
         /// </summary>
