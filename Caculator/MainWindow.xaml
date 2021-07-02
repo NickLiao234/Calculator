@@ -20,30 +20,52 @@
         <Grid
             Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <TextBlock 
                 Grid.Row="0"
+                x:Name="PrefixValue"
+                TextAlignment="Right"
+                Text="{Binding HistoryValue}" 
+                FontSize="15"/>
+            <TextBlock 
+                Grid.Row="1"
+                x:Name="InfixValue"
+                TextAlignment="Right"
+                Text="{Binding HistoryValue}" 
+                FontSize="15"/>
+            <TextBlock 
+                Grid.Row="2"
+                x:Name="PostfixValue"
+                TextAlignment="Right"
+                Text="{Binding HistoryValue}" 
+                FontSize="15"/>
+            <TextBlock 
+                Grid.Row="3"
                 x:Name="HistoryValue"
                 TextAlignment="Right"
                 Text="{Binding HistoryValue}" 
-                FontSize="25"/>
+                FontSize="15"/>
             <TextBlock 
-                Grid.Row="1"
+                Grid.Row="4"
                 x:Name="CurrentValue"
                 TextAlignment="Right"
                 Text="{Binding CurrentValue, Converter={StaticResource converter}}"
-                FontSize="25"/>
+                FontSize="15"/>
         </Grid>
         <Grid
             Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.6*"/>
+                <RowDefinition Height="1.6*"/>
+                <RowDefinition Height="1.6*"/>
+                <RowDefinition Height="1.6*"/>
+                <RowDefinition Height="1.6*"/>
+                <RowDefinition Height="1.6*"/>
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0">
@@ -89,6 +111,39 @@
                 <Button
                     Grid.Column="0"
                     Margin="2,2,2,2"
+                    Content="²√" 
+                    FontSize="25"
+                    Click="Button_Click"/>
+                <Button
+                    Grid.Column="1"
+                    Margin="2,2,2,2"
+                    Content="(" 
+                    FontSize="25"
+                    Click="Button_Click"/>
+                <Button
+                    Grid.Column="2"
+                    Margin="2,2,2,2"
+                    Content=")" 
+                    FontSize="25"
+                    Click="Button_Click"/>
+                <Button
+                    Grid.Column="3"
+                    Margin="2,2,2,2"
+                    Content="" 
+                    FontSize="25"
+                    Click="Button_Click"/>
+            </Grid>
+            <Grid
+                Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Margin="2,2,2,2"
                     Content="7" 
                     FontSize="25"
                     Click="Button_Click"/>
@@ -112,7 +167,7 @@
                     Click="Button_Click"/>
             </Grid>
             <Grid
-                Grid.Row="2">
+                Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition Width="2.5*"/>
@@ -145,7 +200,7 @@
                     Click="Button_Click"/>
             </Grid>
             <Grid
-                Grid.Row="3">
+                Grid.Row="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition Width="2.5*"/>
@@ -178,7 +233,7 @@
                     Click="Button_Click"/>
             </Grid>
             <Grid
-                Grid.Row="4">
+                Grid.Row="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition Width="2.5*"/>

@@ -51,6 +51,7 @@ namespace Calculator
         /// 表達式計算服務
         /// </summary>
         private readonly ICalculateExpressionService calculateExpressionService;
+        private readonly ISquareRootService squareRootService;
 
         /// <summary>
         /// 字串對應委派方法表
@@ -76,7 +77,8 @@ namespace Calculator
             IReverseService reverseService,
             IAppendNumberService appendNumberService,
             IEditViewModelService editModelService,
-            ICalculateExpressionService calculateExpressionService)
+            ICalculateExpressionService calculateExpressionService,
+            ISquareRootService squareRootService)
         {
             this.calculateViewmodel = calculateViewmodel;
             this.backService = backService;
@@ -86,6 +88,7 @@ namespace Calculator
             this.appendNumberService = appendNumberService;
             this.editModelService = editModelService;
             this.calculateExpressionService = calculateExpressionService;
+            this.squareRootService = squareRootService;
             InitializeComponent();
 
             DataContext = calculateViewmodel;
@@ -113,6 +116,7 @@ namespace Calculator
             MapMethod.Add("C", new ButtonClear(clearService));
             MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
             MapMethod.Add("back", new ButtonBack(backService));
+            MapMethod.Add("²√", new ButtonSquareRoot(squareRootService));
             MapMethod.Add("=", new ButtonEqual(editModelService, calculateExpressionService, clearService));
             MapMethod.Add("+", new ButtonOperators("+", editModelService, calculateExpressionService));
             MapMethod.Add("-", new ButtonOperators("-", editModelService, calculateExpressionService));

@@ -44,6 +44,7 @@ namespace Calculator
             services.AddSingleton<IClearService, ClearService>();
             services.AddSingleton<IClearCurrentService, ClearCurrentService>();
             services.AddSingleton<IReverseService, ReverseService>();
+            services.AddSingleton<ISquareRootService, SquareRootService>();
             services.AddSingleton<MainWindow>();
         }
 

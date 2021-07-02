@@ -35,9 +35,7 @@ namespace Caculator.Services
         {
             var expression = new Stack<CalculateElementBase>(viewModel.ExpressionStack);
 
-            decimal result = 0;
-
-            result = Calculate(null, null, expression).Value;
+            var result = Calculate(null, null, expression).Value;
 
             return result;
         }
