@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caculator.Core.Operators
+namespace Calculator.Core.Operators
 {
     /// <summary>
     /// 表達式加法物件

@@ -51,6 +51,8 @@ namespace Caculator.Objects
         public override void Excute()
         {
             modelService.AddOperand();
+            //TODO Check if "(" count == ")" count true: getresult else pass
+
             //var result = calculateExpressionService.GetResult();
             //modelService.SetHistoryValue(result);
             modelService.AddOperator(value);

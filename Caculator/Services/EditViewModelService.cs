@@ -36,7 +36,7 @@ namespace Caculator.Services
 
             if (!viewModel.IsCurrentEdited())
             {
-                viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
+                //viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
                 return;
             }
 
@@ -47,7 +47,7 @@ namespace Caculator.Services
             }
 
             var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (IsOperand(lastElement))
+            if (IsOperand(lastElement) || lastElement == ")")
             {
                 return;
             }
@@ -68,6 +68,10 @@ namespace Caculator.Services
             }
 
             var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+            if (lastElement == "(")
+            {
+                return;
+            }
             if (!IsOperand(lastElement))
             {
                 viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
@@ -78,7 +82,45 @@ namespace Caculator.Services
         }
 
         /// <summary>
-        /// 清除目前運算子
+        /// 表達式加入左括號
+        /// </summary>
+        public void AddOpenParentthesis()
+        {
+            if (viewModel.Expression.Count != 0)
+            {
+                var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+                if (IsOperand(lastElement) || lastElement == ")")
+                {
+                    return;
+                }
+            }
+
+            viewModel.Expression.Add("(");
+        }
+
+        public void AddCloseParentthesis()
+        {
+            if (viewModel.Expression.Count == 0)
+            {
+                return;
+            }
+
+            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+            if (!IsOperand(lastElement) && lastElement != ")")
+            {
+                return;
+            }
+
+            if (lastElement == ")" && !viewModel.IsOpenParentthesisMoreThanCloseParentThesis())
+            {
+                return;
+            }
+
+            viewModel.Expression.Add(")");
+        }
+
+        /// <summary>
+        /// 清除目前運算元
         /// </summary>
         public void ClearCurrentValue()
         {
@@ -95,7 +137,7 @@ namespace Caculator.Services
         }
 
         /// <summary>
-        /// 設定目前運算子值
+        /// 設定目前運算元值
         /// </summary>
         /// <param name="value">目前運算子值</param>
         public void SetCurrentValue(string value)
@@ -104,13 +146,13 @@ namespace Caculator.Services
         }
 
         /// <summary>
-        /// 判斷是否為運算子方法
+        /// 判斷是否為運算元方法
         /// </summary>
         /// <param name="lastElement">stack pop第一個物件</param>
         /// <returns></returns>
         private bool IsOperand(string lastElement)
         {
-            var listOperator = new List<string>() { "+", "-", "*", "/" };
+            var listOperator = new List<string>() { "+", "-", "*", "/", "(", ")" };
             if (listOperator.Contains(lastElement))
             {
                 return false;

@@ -1,4 +1,4 @@
-﻿namespace Caculator.Core.Operators
+﻿namespace Calculator.Core.Operators
 {
     /// <summary>
     /// 表達式減法類別

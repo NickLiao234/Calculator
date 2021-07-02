@@ -1,4 +1,4 @@
-﻿using Caculator.Core.Operators;
+﻿using Calculator.Core.Operators;
 using System.Collections.Generic;
 
 namespace Calculator.Core.Service.Calculate
@@ -25,8 +25,8 @@ namespace Calculator.Core.Service.Calculate
             map.Add("-", new SubElement());
             map.Add("*", new MultipleElement());
             map.Add("/", new DivideElement());
-            //map.Add("(", new OpenParentthesisElement());
-            //map.Add(")", new CloseParentthesisElement());
+            map.Add("(", new OpenParentthesisElement());
+            map.Add(")", new CloseParentthesisElement());
         }
 
         /// <summary>

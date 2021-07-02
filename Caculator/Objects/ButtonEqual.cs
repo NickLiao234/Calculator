@@ -50,6 +50,8 @@ namespace Caculator.Objects
         public override void Excute()
         {
             editViewModelService.AddOperand();
+            //TODO Check if "(" count == ")" count true: getresult else add ")" count = "(" count
+
             var result = calculateExpressionService.GetResult();
             clearService.Clear();
             editViewModelService.SetHistoryValue(result);

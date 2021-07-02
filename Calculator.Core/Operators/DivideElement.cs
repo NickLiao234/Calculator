@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Caculator.Core.Operators
+namespace Calculator.Core.Operators
 {
     /// <summary>
     /// 表達式除法物件

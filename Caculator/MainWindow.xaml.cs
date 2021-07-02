@@ -122,6 +122,8 @@ namespace Calculator
             MapMethod.Add("-", new ButtonOperators("-", editModelService, calculateExpressionService));
             MapMethod.Add("*", new ButtonOperators("*", editModelService, calculateExpressionService));
             MapMethod.Add("/", new ButtonOperators("/", editModelService, calculateExpressionService));
+            MapMethod.Add("(", new ButtonOpenParentThesis(editModelService));
+            MapMethod.Add(")", new ButtonCloseParentThesis(editModelService));
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Caculator.Core.Operators;
+﻿using Calculator.Core.Operators;
 using System;
 using System.Collections.Generic;
 

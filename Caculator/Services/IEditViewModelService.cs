@@ -25,6 +25,16 @@ namespace Caculator.Services
         public void AddOperator(string value);
 
         /// <summary>
+        /// 表達式加入左括號
+        /// </summary>
+        public void AddOpenParentthesis();
+
+        /// <summary>
+        /// 表達式加入右括號
+        /// </summary>
+        public void AddCloseParentthesis();
+
+        /// <summary>
         /// 設定運算結果值
         /// </summary>
         /// <param name="value">顯示值</param>

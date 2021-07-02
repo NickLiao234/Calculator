@@ -50,7 +50,7 @@ namespace Calculator
         /// <summary>
         /// CurrentValue是否異曾經動過
         /// </summary>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public bool IsCurrentEdited()
         {
             if (CurrentValue == "0")
@@ -59,6 +59,23 @@ namespace Calculator
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 判斷左括號是否比右括號多
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsOpenParentthesisMoreThanCloseParentThesis()
+        {
+            var openParentThesisCount = Expression.Where(element => element == "(").Count();
+            var CloseParentthesisCount = Expression.Where(element => element == ")").Count();
+
+            if (openParentThesisCount > CloseParentthesisCount)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
