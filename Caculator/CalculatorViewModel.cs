@@ -16,7 +16,10 @@ namespace Calculator
     {
         public List<string> Expression { get; set; }
 
-        public string PostFix { get; set; }
+        public string Postfix { get; set; }
+
+        public string Infix { get; set; }
+        public string Prefix { get; set; }
 
         /// <summary>
         /// 表達式堆疊
@@ -47,7 +50,9 @@ namespace Calculator
             ExpressionStack = new Stack<CalculateElementBase>();
             HistoryValue = "0";
             CurrentValue = "0";
-            PostFix = null;
+            Postfix = null;
+            Prefix = null;
+            Infix = null;
         }
 
         /// <summary>

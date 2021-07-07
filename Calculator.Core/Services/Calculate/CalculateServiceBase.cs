@@ -1,5 +1,8 @@
 ﻿using Calculator.Core.Operators;
+using Calculator.Core.Services.Calculate;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calculator.Core.Service.Calculate
 {
@@ -111,6 +114,92 @@ namespace Calculator.Core.Service.Calculate
             }
 
             return result;
+        } 
+
+        protected TreeNode GetExpressionTreeNode(List<CalculateElementBase> calculateElements)
+        {
+            var queueElement = new Queue<CalculateElementBase>();
+            foreach (var item in calculateElements)
+            {
+                queueElement.Enqueue(item);
+            }
+
+            var root = new TreeNode();
+            return AppendTreeNode(root, queueElement);
+        }
+
+        private TreeNode AppendTreeNode(TreeNode root, Queue<CalculateElementBase> queueElement)
+        {
+            if (queueElement.Count == 0)
+            {
+                return root;
+            }
+
+            var item = queueElement.ToList()[0];
+            var token = new TreeNode(item);
+
+            if (root.Token is null)
+            {
+                queueElement.Dequeue();
+                root = token;
+                return AppendTreeNode(root, queueElement);
+            }
+
+            if (!IsOperand(token.Token))
+            {
+                if (!IsOperand(root.Token) && root.RightNode is null)
+                {
+                    throw new Exception();
+                }
+
+                if (IsOperand(root.Token))
+                {
+                    queueElement.Dequeue();
+                    token.LeftNode = root;
+                    root = token;
+                    return AppendTreeNode(root, queueElement);
+                }
+                else
+                {
+                    var operatorToken = (OperatorElement)token.Token;
+                    var operatorRootToken = (OperatorElement)root.Token;
+
+                    if (operatorToken.Priority <= operatorRootToken.Priority)
+                    {
+                        queueElement.Dequeue();
+                        token.LeftNode = root;
+                        root = token;
+                        return AppendTreeNode(root, queueElement);
+                    }
+                    else
+                    {
+                        root.RightNode = AppendTreeNode(root.RightNode, queueElement);
+                        return AppendTreeNode(root, queueElement);
+                    }
+                }
+            }
+            else
+            {
+                if (IsOperand(root.Token))
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    if (root.RightNode == null)
+                    {
+                        root.RightNode = token;
+                        queueElement.Dequeue();
+                        return AppendTreeNode(root, queueElement);
+                    }
+                    else
+                    {
+                        root.RightNode = AppendTreeNode(root.RightNode, queueElement);
+                        queueElement.Dequeue();
+                        return AppendTreeNode(root, queueElement);
+                    }
+                }
+            }
         }
     }
 }

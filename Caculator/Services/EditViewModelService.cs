@@ -147,7 +147,17 @@ namespace Caculator.Services
 
         public void SetPostfixValue(string value)
         {
-            viewModel.PostFix = value;
+            viewModel.Postfix = value;
+        }
+
+        public void SetPrefixValue(string value)
+        {
+            viewModel.Prefix = value;
+        }
+
+        public void SetInfixValue(string value)
+        {
+            viewModel.Infix = value;
         }
 
         /// <summary>

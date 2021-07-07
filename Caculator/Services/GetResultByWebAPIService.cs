@@ -27,6 +27,20 @@ namespace Caculator.Services
             return Convert.ToDecimal(result);
         }
 
+        public async Task<string> GetInfixAsync()
+        {
+            var result = await SendPostAsync("infix");
+
+            return result;
+        }
+
+        public async Task<string> GetPrefixAsync()
+        {
+            var result = await SendPostAsync("prefix");
+
+            return result;
+        }
+
         public async Task<string> GetPostfixAsync()
         {
             var result = await SendPostAsync("postfix");

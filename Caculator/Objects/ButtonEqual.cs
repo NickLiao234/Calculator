@@ -58,9 +58,13 @@ namespace Caculator.Objects
             //var result = calculateExpressionService.GetResult();
             var result = await getResultByWebAPIService.GetResultAsync();
             var postfix = await getResultByWebAPIService.GetPostfixAsync();
+            var prefix = await getResultByWebAPIService.GetPrefixAsync();
+            var infix = await getResultByWebAPIService.GetInfixAsync();
             clearService.Clear();
             editViewModelService.SetHistoryValue(result);
             editViewModelService.SetCurrentValue(result.ToString());
+            editViewModelService.SetInfixValue(infix);
+            editViewModelService.SetPrefixValue(prefix);
             editViewModelService.SetPostfixValue(postfix);
         }
     }

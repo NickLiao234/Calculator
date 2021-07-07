@@ -52,5 +52,9 @@ namespace Caculator.Services
         public void ClearCurrentValue();
 
         public void SetPostfixValue(string value);
+
+        public void SetPrefixValue(string value);
+
+        public void SetInfixValue(string value);
     }
 }

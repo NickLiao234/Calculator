@@ -1,4 +1,5 @@
 using Calculator.Core.Service.Calculate;
+using Calculator.Core.Services.Calculate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,7 +35,7 @@ namespace Calculator.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Calculator.WebAPI", Version = "v1" });
             });
 
-            services.AddScoped<CalculateServiceBase, PostfixService>();
+            services.AddScoped<Core.Services.Calculate.CalculateFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

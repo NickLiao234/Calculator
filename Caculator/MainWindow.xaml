@@ -30,19 +30,19 @@
                 Grid.Row="0"
                 x:Name="PrefixValue"
                 TextAlignment="Right"
-                Text="{Binding HistoryValue}" 
+                Text="{Binding Prefix}" 
                 FontSize="15"/>
             <TextBlock 
                 Grid.Row="1"
                 x:Name="InfixValue"
                 TextAlignment="Right"
-                Text="{Binding HistoryValue}" 
+                Text="{Binding Infix}" 
                 FontSize="15"/>
             <TextBlock 
                 Grid.Row="2"
                 x:Name="PostfixValue"
                 TextAlignment="Right"
-                Text="{Binding PostFix}" 
+                Text="{Binding Postfix}" 
                 FontSize="15"/>
             <TextBlock 
                 Grid.Row="3"

@@ -1,4 +1,5 @@
 ﻿using Calculator.Core.Operators;
+using Calculator.Core.Services.Calculate;
 using System;
 using System.Collections.Generic;
 
@@ -8,8 +9,7 @@ namespace Calculator.Core.Service.Calculate
     /// 運算後序表達式服務
     /// </summary>
     public class PostfixService : CalculateServiceBase
-    {
-
+    { 
         /// <summary>
         /// 初始化
         /// </summary>
@@ -24,16 +24,32 @@ namespace Calculator.Core.Service.Calculate
         /// <returns>字串</returns>
         public override string GetExpressionString(List<string> expression)
         {
-            string result = "";
+            var listPostfix = TransferExpressionToListObject(expression);
+            var expressionTreeNode = GetExpressionTreeNode(listPostfix);
 
-            var listPostfix = GetExpressionList(expression);
+            return AppendTreeNodeByPostfix(expressionTreeNode, "");
+        }
 
-            foreach (var item in listPostfix)
+        private string AppendTreeNodeByPostfix(TreeNode tree, string str)
+        {
+            if (tree.Token is null)
             {
-                result += item.Value;
+                return str;
             }
 
-            return result;
+            if (tree.LeftNode is null && tree.RightNode is null)
+            {
+                str += tree.Token.Value;
+                return str;
+            }
+            else
+            {
+                str = AppendTreeNodeByPostfix(tree.LeftNode, str);
+                str = AppendTreeNodeByPostfix(tree.RightNode, str);
+                str += tree.Token.Value;
+
+                return str;
+            }
         }
 
         /// <summary>
