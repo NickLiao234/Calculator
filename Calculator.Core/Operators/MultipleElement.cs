@@ -8,7 +8,6 @@
         /// <summary>
         /// 初始化優先權
         /// </summary>
-        /// <param name="value">顯示值</param>
         public MultipleElement() : base("*")
         {
             Priority = 3;

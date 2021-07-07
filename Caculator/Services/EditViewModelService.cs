@@ -59,7 +59,6 @@ namespace Caculator.Services
         /// 運算子加入表達式
         /// </summary>
         /// <param name="value">顯示值</param>
-        /// <param name="type">運算元類別型態</param>
         public void AddOperator(string value)
         {
             if (viewModel.Expression.Count == 0)
@@ -74,8 +73,11 @@ namespace Caculator.Services
             }
             if (!IsOperand(lastElement))
             {
-                viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
-                return;
+                if (lastElement != ")")
+                {
+                    viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
+                    return;
+                }               
             }
 
             viewModel.Expression.Add(value);
@@ -98,6 +100,9 @@ namespace Caculator.Services
             viewModel.Expression.Add("(");
         }
 
+        /// <summary>
+        /// 表達式加入右括號
+        /// </summary>
         public void AddCloseParentthesis()
         {
             if (viewModel.Expression.Count == 0)
@@ -145,16 +150,28 @@ namespace Caculator.Services
             viewModel.CurrentValue = value;
         }
 
+        /// <summary>
+        /// 設定後序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetPostfixValue(string value)
         {
             viewModel.Postfix = value;
         }
 
+        /// <summary>
+        /// 設定前序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetPrefixValue(string value)
         {
             viewModel.Prefix = value;
         }
 
+        /// <summary>
+        /// 設定中序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetInfixValue(string value)
         {
             viewModel.Infix = value;

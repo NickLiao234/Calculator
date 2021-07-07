@@ -10,7 +10,6 @@ namespace Calculator.Core.Operators
         /// <summary>
         /// 初始化優先權
         /// </summary>
-        /// <param name="value">顯示值</param>
         public DivideElement() : base("/")
         {
             Priority = 3;

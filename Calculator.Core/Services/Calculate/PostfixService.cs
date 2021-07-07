@@ -13,7 +13,7 @@ namespace Calculator.Core.Service.Calculate
         /// <summary>
         /// 初始化
         /// </summary>
-        public PostfixService():base()
+        public PostfixService() : base()
         {
         }
 
@@ -30,6 +30,12 @@ namespace Calculator.Core.Service.Calculate
             return AppendTreeNodeByPostfix(expressionTreeNode, "");
         }
 
+        /// <summary>
+        /// 遞迴方法
+        /// </summary>
+        /// <param name="tree">tree</param>
+        /// <param name="str">表達式初始值</param>
+        /// <returns>表達式</returns>
         private string AppendTreeNodeByPostfix(TreeNode tree, string str)
         {
             if (tree.Token is null)
@@ -56,7 +62,7 @@ namespace Calculator.Core.Service.Calculate
         /// 取得後序表達式
         /// </summary>
         /// <param name="expression">未排序過表達式</param>
-        /// <returns>List<CalculateElementBase></returns>
+        /// <returns>表達式</returns>
         public override List<CalculateElementBase> GetExpressionList(List<string> expression)
         {
             var result = new List<CalculateElementBase>();
@@ -85,8 +91,8 @@ namespace Calculator.Core.Service.Calculate
                         }
 
                         result.Add(temp);
-
-                    } while (true);
+                    }
+                    while (true);
                 }
                 else
                 {

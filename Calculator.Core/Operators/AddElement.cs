@@ -14,7 +14,6 @@ namespace Calculator.Core.Operators
         /// <summary>
         /// 初始化設定優先權
         /// </summary>
-        /// <param name="value">顯示值</param>
         public AddElement() : base("+")
         {
             Priority = 2;

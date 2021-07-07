@@ -51,7 +51,15 @@ namespace Calculator
         /// 表達式計算服務
         /// </summary>
         private readonly ICalculateExpressionService calculateExpressionService;
+
+        /// <summary>
+        /// 開根號服務
+        /// </summary>
         private readonly ISquareRootService squareRootService;
+
+        /// <summary>
+        /// 透過WebAPI取得結果服務
+        /// </summary>
         private readonly IGetResultByWebAPIService getResultByWebAPIService;
 
         /// <summary>
@@ -70,6 +78,8 @@ namespace Calculator
         /// <param name="appendNumberService">加入字元服務</param>
         /// <param name="editModelService">修改viewmodel屬性服務</param>
         /// <param name="calculateExpressionService">運算表達式服務</param>
+        /// <param name="squareRootService">開根號服務</param>
+        /// <param name="getResultByWebAPIService">API取得結果服務</param>
         public MainWindow(
             CalculatorViewModel calculateViewmodel,
             IBackService backService,

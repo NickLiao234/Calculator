@@ -14,11 +14,24 @@ namespace Calculator
     /// </summary>
     public class CalculatorViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 表達式字串List
+        /// </summary>
         public List<string> Expression { get; set; }
 
+        /// <summary>
+        /// 後序表達式
+        /// </summary>
         public string Postfix { get; set; }
 
+        /// <summary>
+        /// 中序表達式
+        /// </summary>
         public string Infix { get; set; }
+
+        /// <summary>
+        /// 前序表達式
+        /// </summary>
         public string Prefix { get; set; }
 
         /// <summary>

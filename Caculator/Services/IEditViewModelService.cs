@@ -21,7 +21,6 @@ namespace Caculator.Services
         /// 運算元插入堆疊
         /// </summary>
         /// <param name="value">顯示值</param>
-        /// <param name="type">運算元類別型態</param>
         public void AddOperator(string value);
 
         /// <summary>
@@ -51,10 +50,22 @@ namespace Caculator.Services
         /// </summary>
         public void ClearCurrentValue();
 
+        /// <summary>
+        /// 設定後序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetPostfixValue(string value);
 
+        /// <summary>
+        /// 設定前序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetPrefixValue(string value);
 
+        /// <summary>
+        /// 設定中序表達式
+        /// </summary>
+        /// <param name="value">表達式字串</param>
         public void SetInfixValue(string value);
     }
 }

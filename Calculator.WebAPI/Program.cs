@@ -9,13 +9,25 @@ using System.Threading.Tasks;
 
 namespace Calculator.WebAPI
 {
+    /// <summary>
+    /// µ{¦¡¶i¤JÂI
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// ¥Dµ{¦¡¤èªk
+        /// </summary>
+        /// <param name="args">args</param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// «Ø¥ßbuilder
+        /// </summary>
+        /// <param name="args">args</param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

@@ -8,7 +8,7 @@
         /// <summary>
         /// 優先權
         /// </summary>
-        public int Priority { get; protected set; }
+        public int Priority { get; set; }
 
         /// <summary>
         /// 初始化呼叫基底類別建構子

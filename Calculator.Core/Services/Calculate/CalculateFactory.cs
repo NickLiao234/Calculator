@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace Calculator.Core.Services.Calculate
 {
+    /// <summary>
+    /// 運算服務工廠
+    /// </summary>
     public class CalculateFactory
     {
+        /// <summary>
+        /// 取得運算服務實體
+        /// </summary>
+        /// <param name="calculateEnum">運算Enum</param>
+        /// <returns>CalculateServiceBase實體</returns>
         public CalculateServiceBase GetCalculateService(CalculateEnum calculateEnum)
         {
             switch (calculateEnum)

@@ -9,17 +9,36 @@ using System.Threading.Tasks;
 
 namespace Caculator.Services
 {
+    /// <summary>
+    /// 取得結果服務實作
+    /// </summary>
     public class GetResultByWebAPIService : IGetResultByWebAPIService
     {
+        /// <summary>
+        /// HttpClient
+        /// </summary>
         private readonly IHttpClientFactory httpClient;
+
+        /// <summary>
+        /// ViewModel
+        /// </summary>
         private readonly CalculatorViewModel viewModel;
 
+        /// <summary>
+        /// 初始化注入服務
+        /// </summary>
+        /// <param name="httpClient">HttpClient</param>
+        /// <param name="viewModel">ViewModel</param>
         public GetResultByWebAPIService(IHttpClientFactory httpClient, CalculatorViewModel viewModel)
         {
             this.httpClient = httpClient;
             this.viewModel = viewModel;
         }
 
+        /// <summary>
+        /// 取得運算結果
+        /// </summary>
+        /// <returns>運算結果</returns>
         public async Task<decimal> GetResultAsync()
         {
             var result = await SendPostAsync("result");
@@ -27,6 +46,10 @@ namespace Caculator.Services
             return Convert.ToDecimal(result);
         }
 
+        /// <summary>
+        /// 取得中序表達式
+        /// </summary>
+        /// <returns>表達式</returns>
         public async Task<string> GetInfixAsync()
         {
             var result = await SendPostAsync("infix");
@@ -34,6 +57,10 @@ namespace Caculator.Services
             return result;
         }
 
+        /// <summary>
+        /// 取得前序表達式
+        /// </summary>
+        /// <returns>表達式</returns>
         public async Task<string> GetPrefixAsync()
         {
             var result = await SendPostAsync("prefix");
@@ -41,6 +68,10 @@ namespace Caculator.Services
             return result;
         }
 
+        /// <summary>
+        /// 取得後序表達式
+        /// </summary>
+        /// <returns>表達式</returns>
         public async Task<string> GetPostfixAsync()
         {
             var result = await SendPostAsync("postfix");
@@ -48,8 +79,11 @@ namespace Caculator.Services
             return result;
         }
 
-
-
+        /// <summary>
+        /// 發出Post請求方法
+        /// </summary>
+        /// <param name="uri">route</param>
+        /// <returns>字串</returns>
         private async Task<string> SendPostAsync(string uri)
         {
             var expression = viewModel.Expression;
@@ -61,7 +95,7 @@ namespace Caculator.Services
 
             var client = httpClient.CreateClient("CalculateService");
 
-            using var response = await client.PostAsync(uri, requestBody);
+            var response = await client.PostAsync(uri, requestBody);
 
             var result = await response.Content.ReadAsStringAsync();
 

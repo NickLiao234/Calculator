@@ -16,19 +16,31 @@ using System.Threading.Tasks;
 
 namespace Calculator.WebAPI
 {
+    /// <summary>
+    /// startup
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// 初始化注入服務
+        /// </summary>
+        /// <param name="configuration">configuration</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configuration
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// 設定DI服務 This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">服務</param>
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,7 +50,11 @@ namespace Calculator.WebAPI
             services.AddScoped<Core.Services.Calculate.CalculateFactory>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Pipeline This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">app</param>
+        /// <param name="env">env</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
