@@ -57,6 +57,7 @@ namespace Caculator.Objects
             //modelService.SetHistoryValue(result);
             modelService.AddOperator(value);
             modelService.ClearCurrentValue();
+            modelService.SetHistoryValue();
         }
     }
 }

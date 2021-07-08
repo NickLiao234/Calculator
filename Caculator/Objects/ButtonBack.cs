@@ -16,14 +16,18 @@ namespace Caculator.Objects
         /// 倒退服務
         /// </summary>
         private readonly IBackService backService;
+        private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入倒退服務
         /// </summary>
         /// <param name="backService">backService</param>
-        public ButtonBack(IBackService backService)
+        public ButtonBack(
+            IBackService backService,
+            IEditViewModelService editViewModelService)
         {
             this.backService = backService;
+            this.editViewModelService = editViewModelService;
         }
 
         /// <summary>
@@ -32,6 +36,7 @@ namespace Caculator.Objects
         public override void Excute()
         {
             backService.Back();
+            editViewModelService.SetHistoryValue();
         }
     }
 }

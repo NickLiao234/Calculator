@@ -46,7 +46,9 @@ namespace Caculator.Objects
             {
                 clearService.Clear();
                 editViewModelService.SetCurrentValue(ex.Message);
-            }            
+            }
+
+            editViewModelService.SetHistoryValue();
         }
     }
 }

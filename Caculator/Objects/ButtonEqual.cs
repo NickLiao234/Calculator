@@ -1,4 +1,5 @@
 ﻿using Caculator.Services;
+using Calculator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Caculator.Objects
         /// API取得結果服務
         /// </summary>
         private readonly IGetResultByWebAPIService getResultByWebAPIService;
+        private readonly CalculatorViewModel viewModel;
 
         /// <summary>
         /// 初始化注入服務
@@ -41,15 +43,15 @@ namespace Caculator.Objects
         /// <param name="getResultByWebAPIService">API取得結果服務</param>
         public ButtonEqual(
             IEditViewModelService editViewModelService,
-            ICalculateExpressionService calculateExpressionService,
             IClearService clearService,
-            IGetResultByWebAPIService getResultByWebAPIService
+            IGetResultByWebAPIService getResultByWebAPIService,
+            CalculatorViewModel viewModel
             )
         {
             this.editViewModelService = editViewModelService;
-            this.calculateExpressionService = calculateExpressionService;
             this.clearService = clearService;
             this.getResultByWebAPIService = getResultByWebAPIService;
+            this.viewModel = viewModel;
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace Caculator.Objects
         {
             editViewModelService.AddOperand();
             //TODO Check if "(" count == ")" count true: getresult else add ")" count = "(" count
-
+            
             //var result = calculateExpressionService.GetResult();
             var result = await getResultByWebAPIService.GetResultAsync();
             var postfix = await getResultByWebAPIService.GetPostfixAsync();

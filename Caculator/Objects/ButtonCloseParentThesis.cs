@@ -34,6 +34,7 @@ namespace Caculator.Objects
             editViewModelService.AddOperand();
             editViewModelService.ClearCurrentValue();
             editViewModelService.AddCloseParentthesis();
+            editViewModelService.SetHistoryValue();
         }
     }
 }

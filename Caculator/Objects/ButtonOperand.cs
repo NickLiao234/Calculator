@@ -16,6 +16,7 @@ namespace Caculator.Objects
         /// appendService
         /// </summary>
         private readonly IAppendNumberService appendNumberService;
+        private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 按鈕字元
@@ -27,10 +28,14 @@ namespace Caculator.Objects
         /// </summary>
         /// <param name="value">顯示值</param>
         /// <param name="appendNumberService">appendNumberService</param>
-        public ButtonOperand(string value, IAppendNumberService appendNumberService)
+        public ButtonOperand(
+            string value, 
+            IAppendNumberService appendNumberService,
+            IEditViewModelService editViewModelService)
         {
             this.value = value;
             this.appendNumberService = appendNumberService;
+            this.editViewModelService = editViewModelService;
         }
 
         /// <summary>
@@ -39,6 +44,7 @@ namespace Caculator.Objects
         public override void Excute()
         {
             appendNumberService.Append(value);
+            editViewModelService.SetHistoryValue();
         }
     }
 }

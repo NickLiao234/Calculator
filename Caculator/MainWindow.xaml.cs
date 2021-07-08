@@ -114,23 +114,23 @@ namespace Calculator
         /// </summary>
         private void InitMapMethod()
         {
-            MapMethod.Add("0", new ButtonOperand("0", appendNumberService));
-            MapMethod.Add("1", new ButtonOperand("1", appendNumberService));
-            MapMethod.Add("2", new ButtonOperand("2", appendNumberService));
-            MapMethod.Add("3", new ButtonOperand("3", appendNumberService));
-            MapMethod.Add("4", new ButtonOperand("4", appendNumberService));
-            MapMethod.Add("5", new ButtonOperand("5", appendNumberService));
-            MapMethod.Add("6", new ButtonOperand("6", appendNumberService));
-            MapMethod.Add("7", new ButtonOperand("7", appendNumberService));
-            MapMethod.Add("8", new ButtonOperand("8", appendNumberService));
-            MapMethod.Add("9", new ButtonOperand("9", appendNumberService));
-            MapMethod.Add(".", new ButtonOperand(".", appendNumberService));
-            MapMethod.Add("+-", new ButtonReverse(reverseService));
+            MapMethod.Add("0", new ButtonOperand("0", appendNumberService,editModelService));
+            MapMethod.Add("1", new ButtonOperand("1", appendNumberService, editModelService));
+            MapMethod.Add("2", new ButtonOperand("2", appendNumberService, editModelService));
+            MapMethod.Add("3", new ButtonOperand("3", appendNumberService, editModelService));
+            MapMethod.Add("4", new ButtonOperand("4", appendNumberService, editModelService));
+            MapMethod.Add("5", new ButtonOperand("5", appendNumberService, editModelService));
+            MapMethod.Add("6", new ButtonOperand("6", appendNumberService, editModelService));
+            MapMethod.Add("7", new ButtonOperand("7", appendNumberService, editModelService));
+            MapMethod.Add("8", new ButtonOperand("8", appendNumberService, editModelService));
+            MapMethod.Add("9", new ButtonOperand("9", appendNumberService, editModelService));
+            MapMethod.Add(".", new ButtonOperand(".", appendNumberService, editModelService));
+            MapMethod.Add("+-", new ButtonReverse(reverseService, editModelService));
             MapMethod.Add("C", new ButtonClear(clearService));
             MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
-            MapMethod.Add("back", new ButtonBack(backService));
+            MapMethod.Add("back", new ButtonBack(backService, editModelService));
             MapMethod.Add("²√", new ButtonSquareRoot(squareRootService, editModelService, clearService));
-            MapMethod.Add("=", new ButtonEqual(editModelService, calculateExpressionService, clearService, getResultByWebAPIService));
+            MapMethod.Add("=", new ButtonEqual(editModelService, clearService, getResultByWebAPIService, calculateViewmodel));
             MapMethod.Add("+", new ButtonOperators("+", editModelService, calculateExpressionService));
             MapMethod.Add("-", new ButtonOperators("-", editModelService, calculateExpressionService));
             MapMethod.Add("*", new ButtonOperators("*", editModelService, calculateExpressionService));

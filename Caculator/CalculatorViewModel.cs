@@ -50,6 +50,11 @@ namespace Calculator
         public string CurrentValue { get; set; }
 
         /// <summary>
+        /// 顯示值
+        /// </summary>
+        public string DisplayCurrentValue { get; set; }
+
+        /// <summary>
         /// INotifyPropertyChanged實作方法
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -63,6 +68,7 @@ namespace Calculator
             ExpressionStack = new Stack<CalculateElementBase>();
             HistoryValue = "0";
             CurrentValue = "0";
+            DisplayCurrentValue = CurrentValue;
             Postfix = null;
             Prefix = null;
             Infix = null;

@@ -16,14 +16,18 @@ namespace Caculator.Objects
         /// appendService
         /// </summary>
         private readonly IReverseService reverseService;
+        private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入appendService
         /// </summary>
         /// <param name="reverseService">reverseService</param>
-        public ButtonReverse(IReverseService reverseService)
+        public ButtonReverse(
+            IReverseService reverseService,
+            IEditViewModelService editViewModelService)
         {
             this.reverseService = reverseService;
+            this.editViewModelService = editViewModelService;
         }
 
         /// <summary>
@@ -32,6 +36,7 @@ namespace Caculator.Objects
         public override void Excute()
         {
             reverseService.Reverse();
+            editViewModelService.SetHistoryValue();
         }
     }
 }

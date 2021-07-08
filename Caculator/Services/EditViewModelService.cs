@@ -133,7 +133,31 @@ namespace Caculator.Services
         }
 
         /// <summary>
-        /// 設定運算結果值
+        /// 設定運算表達式
+        /// </summary>
+        public void SetHistoryValue()
+        {
+            var expressionList = viewModel.Expression;
+            var history = "";
+            foreach (var item in expressionList)
+            {
+                decimal number;
+                var isNumber = Decimal.TryParse(item, out number);
+                if (isNumber)
+                {
+                    history += $"{number} ";
+                }
+                else
+                {
+                    history += $"{item} ";
+                }                
+            }
+
+            viewModel.HistoryValue = history;
+        }
+
+        /// <summary>
+        /// 設定運算表達式
         /// </summary>
         /// <param name="value">顯示值</param>
         public void SetHistoryValue(decimal value)

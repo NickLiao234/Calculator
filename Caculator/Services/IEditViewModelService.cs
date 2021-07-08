@@ -34,6 +34,11 @@ namespace Caculator.Services
         public void AddCloseParentthesis();
 
         /// <summary>
+        /// 設定運算表達式
+        /// </summary>
+        public void SetHistoryValue();
+
+        /// <summary>
         /// 設定運算結果值
         /// </summary>
         /// <param name="value">顯示值</param>
