@@ -32,10 +32,18 @@ namespace Caculator.Services
         /// <param name="appendString">欲加入字元</param>
         public void Append(string appendString)
         {
+            decimal current;
+            bool success = decimal.TryParse(viewModel.CurrentValue, out current);
+            if (!success)
+            {
+                viewModel.CurrentValue = "0";
+            }
+
             if (viewModel.CurrentValue.Contains(".") && appendString == ".")
             {
                 return;
             }
+
             viewModel.CurrentValue += appendString;
         }
     }

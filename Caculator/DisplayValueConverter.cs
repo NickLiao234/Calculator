@@ -36,8 +36,7 @@ namespace Calculator
             }
             else
             {
-                result = 0;
-                return result;
+                return value;
             }
         }
 

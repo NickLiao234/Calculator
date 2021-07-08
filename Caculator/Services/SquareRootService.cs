@@ -28,6 +28,10 @@ namespace Caculator.Services
         public void SquareRoot()
         {
             var operand = Convert.ToDouble(calculatorViewModel.CurrentValue);
+            if (operand < 0)
+            {
+                throw new Exception("無法執行開根號");
+            }
             var squareRootValue = Math.Sqrt(operand);
             calculatorViewModel.CurrentValue = squareRootValue.ToString();
         }

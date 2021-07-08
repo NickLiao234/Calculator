@@ -16,14 +16,21 @@ namespace Caculator.Objects
         /// 開根號服務
         /// </summary>
         private readonly ISquareRootService squareRootService;
+        private readonly IEditViewModelService editViewModelService;
+        private readonly IClearService clearService;
 
         /// <summary>
         /// 初始化開根號服務
         /// </summary>
         /// <param name="squareRootService">開根號服務</param>
-        public ButtonSquareRoot(ISquareRootService squareRootService)
+        public ButtonSquareRoot(
+            ISquareRootService squareRootService, 
+            IEditViewModelService editViewModelService, 
+            IClearService clearService)
         {
             this.squareRootService = squareRootService;
+            this.editViewModelService = editViewModelService;
+            this.clearService = clearService;
         }
 
         /// <summary>
@@ -31,7 +38,15 @@ namespace Caculator.Objects
         /// </summary>
         public override void Excute()
         {
-            squareRootService.SquareRoot();
+            try
+            {
+                squareRootService.SquareRoot();
+            }
+            catch (Exception ex)
+            {
+                clearService.Clear();
+                editViewModelService.SetCurrentValue(ex.Message);
+            }            
         }
     }
 }
