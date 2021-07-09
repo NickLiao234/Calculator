@@ -123,7 +123,7 @@ namespace Calculator.Core.Service.Calculate
                     }
                     var elementType = map[element];
                     var instance = Activator.CreateInstance(elementType) as OperatorElement;
-                    instance.Priority = instance.Priority * openthesisLevel;
+                    instance.Priority = instance.Priority + openthesisLevel;
                     result.Add(instance);
                 }
                 else
@@ -134,6 +134,38 @@ namespace Calculator.Core.Service.Calculate
 
             return result;
         } 
+
+        protected List<CalculateElementBase> GetValidExpression(List<string> expression)
+        {
+            var openParantthesisCount = expression.Where(item => item == "(").Count();
+            var closeParantthesisCount = expression.Where(item => item == ")").Count();
+            var openCloseCount = openParantthesisCount - closeParantthesisCount;
+
+            if (expression.Contains("="))
+            {
+                expression.Remove("=");
+            }
+
+            while (IsOperator(expression[expression.Count - 1]))
+            {
+                expression.RemoveAt(expression.Count - 1);
+            }
+
+            return AddParentthesisToBalance(expression, openParantthesisCount, closeParantthesisCount);
+        }
+
+        private List<CalculateElementBase> AddParentthesisToBalance(List<string> expression, int openParantthesisCount, int closeParantthesisCount)
+        {
+            var openCloseSub = openParantthesisCount - closeParantthesisCount;
+
+            while (openCloseSub != 0)
+            {
+                expression.Add(")");
+                openCloseSub--;
+            }
+
+            return TransferExpressionToListObject(expression);
+        }
 
         /// <summary>
         /// 取得表達式使用tree資料結構
@@ -256,6 +288,16 @@ namespace Calculator.Core.Service.Calculate
                     }
                 }
             }
+        }
+
+        private bool IsOperator(string str)
+        {
+            if (str == "+" || str == "-" || str == "*" || str == "/")
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

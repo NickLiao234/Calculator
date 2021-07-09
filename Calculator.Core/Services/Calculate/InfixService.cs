@@ -27,7 +27,28 @@ namespace Calculator.Core.Services.Calculate
         /// <returns>結果</returns>
         public override decimal GetCalculateResult(List<string> expression)
         {
-            throw new NotImplementedException();
+            var expresionListObject = GetExpressionList(expression);
+
+            var tempOperandStack = new Stack<decimal>();
+
+            foreach (var element in expresionListObject)
+            {
+                if (IsOperand(element))
+                {
+                    var value = Convert.ToDecimal(element.Value);
+                    tempOperandStack.Push(value);
+                }
+                else
+                {
+                    var op2 = tempOperandStack.Pop();
+                    var op1 = tempOperandStack.Pop();
+                    var thisOperator = (OperatorElement)element;
+                    var result = thisOperator.Calculate(op1, op2);
+                    tempOperandStack.Push(result);
+                }
+            }
+
+            return tempOperandStack.Pop();
         }
 
         /// <summary>
@@ -37,7 +58,61 @@ namespace Calculator.Core.Services.Calculate
         /// <returns></returns>
         public override List<CalculateElementBase> GetExpressionList(List<string> expression)
         {
-            throw new NotImplementedException();
+            var result = new List<CalculateElementBase>();
+            var listObject = GetValidExpression(expression);
+            var tempStack = new Stack<OperatorElement>();
+
+            foreach (var item in listObject)
+            {
+                if (IsOperand(item))
+                {
+                    result.Add(item);
+                    continue;
+                }
+
+                if (item.Value == ")")
+                {
+                    do
+                    {
+                        var temp = tempStack.Pop();
+
+                        if (temp.Value == "(")
+                        {
+                            break;
+                        }
+
+                        result.Add(temp);
+                    }
+                    while (true);
+                }
+                else
+                {
+                    if (((OperatorElement)item).Priority > GetStackPriority(tempStack))
+                    {
+                        var element = (OperatorElement)item;
+                        tempStack.Push(element);
+                    }
+                    else
+                    {
+                        while (((OperatorElement)item).Priority <= GetStackPriority(tempStack))
+                        {
+                            var temp = tempStack.Pop();
+                            result.Add(temp);
+                        }
+
+                        var element = (OperatorElement)item;
+                        tempStack.Push(element);
+                    }
+                }
+            }
+
+            while (tempStack.Count != 0)
+            {
+                var temp = tempStack.Pop();
+                result.Add(temp);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -47,7 +122,7 @@ namespace Calculator.Core.Services.Calculate
         /// <returns>字串</returns>
         public override string GetExpressionString(List<string> expression)
         {
-            var listPostfix = TransferExpressionToListObject(expression);
+            var listPostfix = GetValidExpression(expression);
             var expressionTreeNode = GetExpressionTreeNode(listPostfix);
 
             return AppendTreeNodeByInfix(expressionTreeNode, "");

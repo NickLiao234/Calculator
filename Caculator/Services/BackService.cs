@@ -16,14 +16,18 @@ namespace Caculator.Services
         /// viewmodel
         /// </summary>
         private readonly CalculatorViewModel viewModel;
-        
+        private readonly IEditViewModelService editViewModelService;
+
         /// <summary>
         /// 建構式注入viewmodel
         /// </summary>
         /// <param name="viewModel">viewmodel</param>
-        public BackService(CalculatorViewModel viewModel)
+        public BackService(
+            CalculatorViewModel viewModel,
+            IEditViewModelService editViewModelService)
         {
             this.viewModel = viewModel;
+            this.editViewModelService = editViewModelService;
         }
 
         /// <summary>
@@ -37,7 +41,7 @@ namespace Caculator.Services
                 return;
             }
 
-            viewModel.CurrentValue = viewModel.CurrentValue.Remove(viewModel.CurrentValue.Length - 1);
+            editViewModelService.SetCurrentValue(viewModel.CurrentValue.Remove(viewModel.CurrentValue.Length - 1));
         }
     }
 }

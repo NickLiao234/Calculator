@@ -172,6 +172,7 @@ namespace Caculator.Services
         public void SetCurrentValue(string value)
         {
             viewModel.CurrentValue = value;
+            viewModel.DisplayCurrentValue = viewModel.CurrentValue;
         }
 
         /// <summary>

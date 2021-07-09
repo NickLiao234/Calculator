@@ -24,7 +24,7 @@ namespace Calculator.Core.Service.Calculate
         /// <returns>字串</returns>
         public override string GetExpressionString(List<string> expression)
         {
-            var listPostfix = TransferExpressionToListObject(expression);
+            var listPostfix = GetValidExpression(expression);
             var expressionTreeNode = GetExpressionTreeNode(listPostfix);
 
             return AppendTreeNodeByPostfix(expressionTreeNode, "");
@@ -67,7 +67,7 @@ namespace Calculator.Core.Service.Calculate
         {
             var result = new List<CalculateElementBase>();
 
-            var listObject = TransferExpressionToListObject(expression);
+            var listObject = GetValidExpression(expression);
 
             var tempStack = new Stack<OperatorElement>();
 

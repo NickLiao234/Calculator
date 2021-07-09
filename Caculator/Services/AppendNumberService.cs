@@ -45,6 +45,7 @@ namespace Caculator.Services
             }
 
             viewModel.CurrentValue += appendString;
+            viewModel.DisplayCurrentValue = viewModel.CurrentValue;
         }
     }
 }

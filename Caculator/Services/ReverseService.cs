@@ -16,14 +16,18 @@ namespace Caculator.Services
         /// viewmodel
         /// </summary>
         private readonly CalculatorViewModel viewModel;
+        private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入viewmodel
         /// </summary>
         /// <param name="viewModel">viewmodel</param>
-        public ReverseService(CalculatorViewModel viewModel)
+        public ReverseService(
+            CalculatorViewModel viewModel,
+            IEditViewModelService editViewModelService)
         {
             this.viewModel = viewModel;
+            this.editViewModelService = editViewModelService;
         }
 
         /// <summary>
@@ -32,7 +36,7 @@ namespace Caculator.Services
         public void Reverse()
         {
             var CurentValueToDecimal = Convert.ToDecimal(viewModel.CurrentValue);
-            viewModel.CurrentValue = (0 - CurentValueToDecimal).ToString();
+            editViewModelService.SetCurrentValue((0 - CurentValueToDecimal).ToString());
         }
     }
 }

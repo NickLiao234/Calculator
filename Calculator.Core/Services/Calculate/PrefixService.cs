@@ -47,7 +47,7 @@ namespace Calculator.Core.Services.Calculate
         /// <returns></returns>
         public override string GetExpressionString(List<string> expression)
         {
-            var listPostfix = TransferExpressionToListObject(expression);
+            var listPostfix = GetValidExpression(expression);
             var expressionTreeNode = GetExpressionTreeNode(listPostfix);
 
             return AppendTreeNodeByPrefix(expressionTreeNode, "");

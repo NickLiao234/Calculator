@@ -32,6 +32,7 @@ namespace Caculator.Services
         public void ClearCurrent()
         {
             viewModel.CurrentValue = "0";
+            viewModel.DisplayCurrentValue = viewModel.CurrentValue;
         }
     }
 }
