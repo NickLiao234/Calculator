@@ -53,7 +53,7 @@ namespace Caculator.Objects
         {
             modelService.AddOperand();
             var result = await getResultByWebAPIService.GetResultAsync();
-            modelService.SetCurrentValue(result.ToString());
+            modelService.SetCurrentValue(result);
             modelService.AddOperator(value);
             modelService.ClearCurrentValue();
             modelService.SetHistoryValue();

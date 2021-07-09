@@ -72,7 +72,7 @@ namespace Caculator.Objects
             var infix = await getResultByWebAPIService.GetInfixAsync();
             clearService.Clear();
             editViewModelService.SetHistoryValue(historyValue);
-            editViewModelService.SetCurrentValue(result.ToString());
+            editViewModelService.SetCurrentValue(result);
             editViewModelService.SetInfixValue(infix);
             editViewModelService.SetPrefixValue(prefix);
             editViewModelService.SetPostfixValue(postfix);

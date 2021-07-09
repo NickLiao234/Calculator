@@ -39,11 +39,11 @@ namespace Caculator.Services
         /// 取得運算結果
         /// </summary>
         /// <returns>運算結果</returns>
-        public async Task<decimal> GetResultAsync()
+        public async Task<string> GetResultAsync()
         {
             var result = await SendPostAsync("result");
 
-            return Convert.ToDecimal(result);
+            return result;
         }
 
         /// <summary>
@@ -97,7 +97,23 @@ namespace Caculator.Services
 
             var response = await client.PostAsync(uri, requestBody);
 
-            var result = await response.Content.ReadAsStringAsync();
+            string result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    result = "錯誤的運算子";
+                }
+                else
+                {
+                    result = "系統異常";
+                }
+            }
 
             return result;
         }

@@ -25,7 +25,7 @@ namespace Calculator.Core.Operators
         {
             if (secondOperand == 0)
             {
-                throw new Exception("無法執行除法");
+                throw new CalculateException("無法執行除法");
             }
 
             return firstOperand / secondOperand;

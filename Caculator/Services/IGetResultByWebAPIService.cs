@@ -12,7 +12,7 @@ namespace Caculator.Services
         /// 取得運算結果
         /// </summary>
         /// <returns>decimal</returns>
-        public Task<decimal> GetResultAsync();
+        public Task<string> GetResultAsync();
 
         /// <summary>
         /// 取得中序表達式

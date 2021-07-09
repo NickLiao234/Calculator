@@ -33,6 +33,7 @@ namespace Caculator.Services
         {
             viewModel.HistoryValue = "0";
             viewModel.CurrentValue = "0";
+            viewModel.DisplayCurrentValue = "0";
             viewModel.ExpressionStack.Clear();
             viewModel.Expression.Clear();
             viewModel.Infix = "";
