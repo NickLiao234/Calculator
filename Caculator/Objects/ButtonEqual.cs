@@ -60,15 +60,18 @@ namespace Caculator.Objects
         public override async void Excute()
         {
             editViewModelService.AddOperand();
-            //TODO Check if "(" count == ")" count true: getresult else add ")" count = "(" count
-            
-            //var result = calculateExpressionService.GetResult();
+            editViewModelService.AddOperator("=");
+            string historyValue = "";
+            foreach (var item in viewModel.Expression)
+            {
+                historyValue += $"{item} ";
+            };
             var result = await getResultByWebAPIService.GetResultAsync();
             var postfix = await getResultByWebAPIService.GetPostfixAsync();
             var prefix = await getResultByWebAPIService.GetPrefixAsync();
             var infix = await getResultByWebAPIService.GetInfixAsync();
             clearService.Clear();
-            editViewModelService.SetHistoryValue(result);
+            editViewModelService.SetHistoryValue(historyValue);
             editViewModelService.SetCurrentValue(result.ToString());
             editViewModelService.SetInfixValue(infix);
             editViewModelService.SetPrefixValue(prefix);

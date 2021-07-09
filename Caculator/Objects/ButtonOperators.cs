@@ -23,6 +23,7 @@ namespace Caculator.Objects
         /// EditViewModelService
         /// </summary>
         private readonly IEditViewModelService modelService;
+        private readonly IGetResultByWebAPIService getResultByWebAPIService;
 
         /// <summary>
         /// calculateExpressionService
@@ -38,23 +39,21 @@ namespace Caculator.Objects
         public ButtonOperators(
             string value,  
             IEditViewModelService modelService,
-            ICalculateExpressionService calculateExpressionService)
+            IGetResultByWebAPIService getResultByWebAPIService)
         {
             this.value = value;
             this.modelService = modelService;
-            this.calculateExpressionService = calculateExpressionService;
+            this.getResultByWebAPIService = getResultByWebAPIService;
         }
 
         /// <summary>
         /// 執行方法
         /// </summary>
-        public override void Excute()
+        public override async void Excute()
         {
             modelService.AddOperand();
-            //TODO Check if "(" count == ")" count true: getresult else pass
-
-            //var result = calculateExpressionService.GetResult();
-            //modelService.SetHistoryValue(result);
+            var result = await getResultByWebAPIService.GetResultAsync();
+            modelService.SetCurrentValue(result.ToString());
             modelService.AddOperator(value);
             modelService.ClearCurrentValue();
             modelService.SetHistoryValue();

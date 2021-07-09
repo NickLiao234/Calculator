@@ -42,7 +42,7 @@ namespace Caculator.Services
         /// 設定運算結果值
         /// </summary>
         /// <param name="value">顯示值</param>
-        public void SetHistoryValue(decimal value);
+        public void SetHistoryValue(string value);
 
         /// <summary>
         /// 設定目前運算子值

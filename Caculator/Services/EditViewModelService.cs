@@ -160,7 +160,7 @@ namespace Caculator.Services
         /// 設定運算表達式
         /// </summary>
         /// <param name="value">顯示值</param>
-        public void SetHistoryValue(decimal value)
+        public void SetHistoryValue(string value)
         {
             viewModel.HistoryValue = value.ToString();
         }
