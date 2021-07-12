@@ -135,6 +135,11 @@ namespace Calculator.Core.Service.Calculate
             return result;
         } 
 
+        /// <summary>
+        /// 取得合法表達式
+        /// </summary>
+        /// <param name="expression">原始表達式</param>
+        /// <returns>合法表達式物件List</returns>
         protected List<CalculateElementBase> GetValidExpression(List<string> expression)
         {
             var openParantthesisCount = expression.Where(item => item == "(").Count();
@@ -154,6 +159,13 @@ namespace Calculator.Core.Service.Calculate
             return AddParentthesisToBalance(expression, openParantthesisCount, closeParantthesisCount);
         }
 
+        /// <summary>
+        /// 平衡運算表達式
+        /// </summary>
+        /// <param name="expression">表達式</param>
+        /// <param name="openParantthesisCount">左括號數量</param>
+        /// <param name="closeParantthesisCount">右括號數量</param>
+        /// <returns>表達式物件List</returns>
         private List<CalculateElementBase> AddParentthesisToBalance(List<string> expression, int openParantthesisCount, int closeParantthesisCount)
         {
             var openCloseSub = openParantthesisCount - closeParantthesisCount;
@@ -290,6 +302,11 @@ namespace Calculator.Core.Service.Calculate
             }
         }
 
+        /// <summary>
+        /// 判斷運算子
+        /// </summary>
+        /// <param name="str">字串</param>
+        /// <returns></returns>
         private bool IsOperator(string str)
         {
             if (str == "+" || str == "-" || str == "*" || str == "/")

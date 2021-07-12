@@ -16,13 +16,23 @@ namespace Caculator.Objects
         /// 開根號服務
         /// </summary>
         private readonly ISquareRootService squareRootService;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
+
+        /// <summary>
+        /// 清除服務
+        /// </summary>
         private readonly IClearService clearService;
 
         /// <summary>
         /// 初始化開根號服務
         /// </summary>
         /// <param name="squareRootService">開根號服務</param>
+        /// <param name="editViewModelService">editViewModelService</param>
+        /// <param name="clearService">清除服務</param>
         public ButtonSquareRoot(
             ISquareRootService squareRootService, 
             IEditViewModelService editViewModelService, 

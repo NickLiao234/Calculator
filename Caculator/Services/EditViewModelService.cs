@@ -142,7 +142,7 @@ namespace Caculator.Services
             foreach (var item in expressionList)
             {
                 decimal number;
-                var isNumber = Decimal.TryParse(item, out number);
+                var isNumber = decimal.TryParse(item, out number);
                 if (isNumber)
                 {
                     history += $"{number} ";

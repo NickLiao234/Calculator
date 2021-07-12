@@ -23,19 +23,18 @@ namespace Caculator.Objects
         /// EditViewModelService
         /// </summary>
         private readonly IEditViewModelService modelService;
-        private readonly IGetResultByWebAPIService getResultByWebAPIService;
 
         /// <summary>
-        /// calculateExpressionService
+        /// getResultByWebAPIService
         /// </summary>
-        private readonly ICalculateExpressionService calculateExpressionService;
+        private readonly IGetResultByWebAPIService getResultByWebAPIService;
 
         /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="value">顯示值</param>
         /// <param name="modelService">EditViewModelService</param>
-        /// <param name="calculateExpressionService">calculateExpressionService</param>
+        /// <param name="getResultByWebAPIService">getResultByWebAPIService</param>
         public ButtonOperators(
             string value,  
             IEditViewModelService modelService,

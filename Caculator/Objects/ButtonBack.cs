@@ -16,12 +16,17 @@ namespace Caculator.Objects
         /// 倒退服務
         /// </summary>
         private readonly IBackService backService;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入倒退服務
         /// </summary>
         /// <param name="backService">backService</param>
+        /// <param name="editViewModelService">editViewModelService</param>
         public ButtonBack(
             IBackService backService,
             IEditViewModelService editViewModelService)

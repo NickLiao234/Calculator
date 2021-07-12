@@ -16,12 +16,17 @@ namespace Caculator.Services
         /// viewmodel
         /// </summary>
         private readonly CalculatorViewModel viewModel;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入viewmodel
         /// </summary>
         /// <param name="viewModel">viewmodel</param>
+        /// <param name="editViewModelService">editViewModelService</param>
         public BackService(
             CalculatorViewModel viewModel,
             IEditViewModelService editViewModelService)

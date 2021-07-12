@@ -1,6 +1,7 @@
 using Calculator.Core;
 using Calculator.Core.Service.Calculate;
 using Calculator.Core.Services.Calculate;
+using Calculator.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -46,7 +47,10 @@ namespace Calculator.WebAPI
         /// <param name="services">ªA°È</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(config => 
+            {
+                config.Filters.Add(typeof(ApiExceptionFilter));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Calculator.WebAPI", Version = "v1" });
@@ -68,29 +72,6 @@ namespace Calculator.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Calculator.WebAPI v1"));
             }
-
-            app.UseExceptionHandler(errorApp =>
-            {
-                errorApp.Run(async context =>
-                {
-                    var exceptionHandlerPathFeature =
-                    context.Features.Get<IExceptionHandlerPathFeature>();
-                    if (exceptionHandlerPathFeature?.Error is CalculateException)
-                    {
-                        var error = exceptionHandlerPathFeature?.Error as CalculateException;
-                        context.Response.StatusCode = error.StatusCode;
-                        var byteArr = Encoding.UTF8.GetBytes(error.Message);
-                        MemoryStream st = new MemoryStream(byteArr);
-                        context.Response.Body = st;
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 500;
-                    }
-                    
-                });
-            });
-            app.UseHsts();
 
             app.UseHttpsRedirection();
 

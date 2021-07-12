@@ -16,6 +16,10 @@ namespace Caculator.Objects
         /// appendService
         /// </summary>
         private readonly IAppendNumberService appendNumberService;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
@@ -28,6 +32,7 @@ namespace Caculator.Objects
         /// </summary>
         /// <param name="value">顯示值</param>
         /// <param name="appendNumberService">appendNumberService</param>
+        /// <param name="editViewModelService">editViewModelService</param>
         public ButtonOperand(
             string value, 
             IAppendNumberService appendNumberService,

@@ -16,12 +16,17 @@ namespace Caculator.Objects
         /// appendService
         /// </summary>
         private readonly IReverseService reverseService;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 建構式注入appendService
         /// </summary>
         /// <param name="reverseService">reverseService</param>
+        /// <param name="editViewModelService">editViewModelService</param>
         public ButtonReverse(
             IReverseService reverseService,
             IEditViewModelService editViewModelService)

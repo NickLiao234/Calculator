@@ -12,12 +12,17 @@ namespace Caculator.Services
         /// viewmodel
         /// </summary>
         private readonly CalculatorViewModel calculatorViewModel;
+
+        /// <summary>
+        /// editViewModelService
+        /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
         /// 初始化注入服務
         /// </summary>
         /// <param name="calculatorViewModel">viewmodel</param>
+        /// <param name="editViewModelService">editViewModelService</param>
         public SquareRootService(
             CalculatorViewModel calculatorViewModel,
             IEditViewModelService editViewModelService)

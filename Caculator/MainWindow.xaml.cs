@@ -114,7 +114,7 @@ namespace Calculator
         /// </summary>
         private void InitMapMethod()
         {
-            MapMethod.Add("0", new ButtonOperand("0", appendNumberService,editModelService));
+            MapMethod.Add("0", new ButtonOperand("0", appendNumberService, editModelService));
             MapMethod.Add("1", new ButtonOperand("1", appendNumberService, editModelService));
             MapMethod.Add("2", new ButtonOperand("2", appendNumberService, editModelService));
             MapMethod.Add("3", new ButtonOperand("3", appendNumberService, editModelService));

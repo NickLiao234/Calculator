@@ -1,4 +1,5 @@
 ﻿using Calculator;
+using Calculator.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,7 +108,10 @@ namespace Caculator.Services
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
-                    result = "錯誤的運算子";
+                    //var returnDataStream = await response.Content.ReadAsStreamAsync();
+                    //var returnData = await JsonSerializer.DeserializeAsync<Result>(returnDataStream);
+                    //result = returnData.Messages;
+                    result = await response.Content.ReadAsStringAsync();                   
                 }
                 else
                 {
