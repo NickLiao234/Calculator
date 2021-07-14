@@ -1,4 +1,6 @@
-﻿namespace Calculator.Core.Operators
+﻿using Calculator.Core.Services.Calculate;
+
+namespace Calculator.Core.Operators
 {
     /// <summary>
     /// 表達式物件基底類別
@@ -17,6 +19,40 @@
         public CalculateElementBase(string value)
         {
             Value = value;
+        }
+
+        /// <summary>
+        /// 將元素加入tree方法
+        /// </summary>
+        /// <param name="result">計算結果物件</param>
+        /// <returns>結果物件</returns>
+        public abstract CalculateResult AppendElement(CalculateResult result);
+
+        /// <summary>
+        /// 判斷是否為括號
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsOpenCloseElement()
+        {
+            return this is OpenCloseElement;
+        }
+
+        /// <summary>
+        /// 判斷是否為運算元
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsOperand()
+        {
+            return this is OperandElement;
+        }
+
+        /// <summary>
+        /// 判斷是否為運算子
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsOperator()
+        {
+            return this is OperatorElement;
         }
     }
 }

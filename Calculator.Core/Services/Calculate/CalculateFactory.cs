@@ -1,5 +1,5 @@
 ﻿using Calculator.Core.Enums;
-using Calculator.Core.Service.Calculate;
+using Calculator.Core.Services.Calculate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

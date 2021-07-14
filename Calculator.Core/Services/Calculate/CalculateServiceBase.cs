@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Calculator.Core.Service.Calculate
+namespace Calculator.Core.Services.Calculate
 {
     /// <summary>
     /// 運算服務基底類別
@@ -43,59 +43,59 @@ namespace Calculator.Core.Service.Calculate
         /// </summary>
         /// <param name="expression">未排序過表達式</param>
         /// <returns>字串</returns>
-        public abstract string GetExpressionString(List<string> expression);
+        public virtual string GetExpressionString(List<string> expression)
+        {
+            var listExpression = GetValidExpression(expression);
+            var expressionTreeNode = GetExpressionTreeNode(listExpression);
+
+            return AppendTreeNode(expressionTreeNode, "");
+        }
 
         /// <summary>
-        /// 取得表達式List
+        /// 產生表達式字串抽象方法(在infix,prefix,postfix各自實作)
         /// </summary>
-        /// <param name="expression">未排序過表達式</param>
-        /// <returns>表達式</returns>
-        public abstract List<CalculateElementBase> GetExpressionList(List<string> expression);
+        /// <param name="tree">tree</param>
+        /// <param name="str">字串</param>
+        /// <returns>字串結果</returns>
+        public abstract string AppendTreeNode(TreeNode tree, string str);
 
         /// <summary>
         /// 取得表達式運算結果
         /// </summary>
         /// <param name="expression">未排序過表達式</param>
         /// <returns>decimal</returns>
-        public abstract decimal GetCalculateResult(List<string> expression);
-
-        /// <summary>
-        /// 取得運算子暫存堆疊第一個物件的優先權
-        /// </summary>
-        /// <param name="tempStack">暫存堆疊</param>
-        /// <returns>優先權</returns>
-        protected virtual int GetStackPriority(Stack<OperatorElement> tempStack)
+        public virtual decimal GetCalculateResult(List<string> expression)
         {
-            if (tempStack.Count == 0)
-            {
-                return 0;
-            }
+            var listPostfix = GetValidExpression(expression);
+            var expressionTreeNode = GetExpressionTreeNode(listPostfix);
 
-            var element = tempStack.Peek();
-
-            if (element.Value == "(")
-            {
-                return 0;
-            }
-
-            return element.Priority;
+            return GetResult(expressionTreeNode);
         }
 
         /// <summary>
-        /// 判斷是否為運算元
+        /// 計算結果遞迴方法
         /// </summary>
-        /// <param name="item">欲判斷物件</param>
-        /// <returns>bool</returns>
-        protected bool IsOperand(CalculateElementBase item)
+        /// <param name="expressionTreeNode">表達式tree</param>
+        /// <returns>decimal</returns>
+        private decimal GetResult(TreeNode expressionTreeNode)
         {
-            OperandElement operand = item as OperandElement;
-
-            if (operand is null)
+            if (expressionTreeNode.Token is null)
             {
-                return false;
+                return 0;
             }
 
-            return true;
+            if (expressionTreeNode.LeftNode is null && expressionTreeNode.RightNode is null)
+            {
+                var result = decimal.Parse(expressionTreeNode.Token.Value);
+                return result;
+            }
+            else
+            {
+                var op = expressionTreeNode.Token as OperatorElement;
+                var oprandLeft = GetResult(expressionTreeNode.LeftNode);
+                var oprandRight = GetResult(expressionTreeNode.RightNode);
+                return op.Calculate(oprandLeft, oprandRight);
+            }
         }
 
         /// <summary>
@@ -106,24 +106,13 @@ namespace Calculator.Core.Service.Calculate
         protected List<CalculateElementBase> TransferExpressionToListObject(List<string> expression)
         {
             var result = new List<CalculateElementBase>();
-            var openthesisLevel = 1;
 
             foreach (var element in expression)
             {
                 if (map.ContainsKey(element))
                 {
-                    if (element == "(")
-                    {
-                        openthesisLevel += 10;
-                    }
-
-                    if (element == ")")
-                    {
-                        openthesisLevel -= 10;
-                    }
                     var elementType = map[element];
-                    var instance = Activator.CreateInstance(elementType) as OperatorElement;
-                    instance.Priority = instance.Priority + openthesisLevel;
+                    var instance = Activator.CreateInstance(elementType) as CalculateElementBase;
                     result.Add(instance);
                 }
                 else
@@ -133,7 +122,7 @@ namespace Calculator.Core.Service.Calculate
             }
 
             return result;
-        } 
+        }
 
         /// <summary>
         /// 取得合法表達式
@@ -186,120 +175,13 @@ namespace Calculator.Core.Service.Calculate
         /// <returns>tree</returns>
         protected TreeNode GetExpressionTreeNode(List<CalculateElementBase> calculateElements)
         {
-            var queueElement = new Queue<CalculateElementBase>();
+            var result = new CalculateResult();
             foreach (var item in calculateElements)
             {
-                queueElement.Enqueue(item);
+                result = item.AppendElement(result);
             }
 
-            return AppendTreeNode(null, queueElement);
-        }
-
-        /// <summary>
-        /// 遞迴方法
-        /// </summary>
-        /// <param name="root">tree</param>
-        /// <param name="queueElement">剩餘表達式</param>
-        /// <returns></returns>
-        private TreeNode AppendTreeNode(TreeNode root, Queue<CalculateElementBase> queueElement)
-        {
-            if (queueElement.Count == 0)
-            {
-                return root;
-            }
-
-            var item = queueElement.ToList()[0];
-            var token = new TreeNode(item);
-
-            if (item.Value == ")")
-            {
-                return root;
-            }
-            if (item.Value == "(")
-            {
-                queueElement.Dequeue();
-
-                if (root is null)
-                {
-                    root = AppendTreeNode(root, queueElement);
-                }
-                else
-                {
-                    if (root.RightNode is null)
-                    {
-                        root.RightNode = AppendTreeNode(null, queueElement);
-                    }
-                    else
-                    {
-                        root.RightNode = AppendTreeNode(root.RightNode, queueElement);
-                    }
-                }
-                queueElement.Dequeue();
-                return AppendTreeNode(root, queueElement);
-            }
-
-            if (root is null)
-            {
-                queueElement.Dequeue();
-                root = token;
-                return AppendTreeNode(root, queueElement);
-            }
-
-            if (!IsOperand(token.Token))
-            {
-                var operatorToken = (OperatorElement)token.Token;
-
-                if (!IsOperand(root.Token) && root.RightNode is null)
-                {
-                    throw new Exception();
-                }
-
-                if (IsOperand(root.Token))
-                {
-                    queueElement.Dequeue();
-                    token.LeftNode = root;
-                    root = token;
-                    return AppendTreeNode(root, queueElement);
-                }
-                else
-                {
-                    var operatorRootToken = (OperatorElement)root.Token;
-                    if (operatorToken.Priority <= operatorRootToken.Priority)
-                    {
-                        queueElement.Dequeue();
-                        token.LeftNode = root;
-                        root = token;
-                        return AppendTreeNode(root, queueElement);
-                    }
-                    else
-                    {
-                        root.RightNode = AppendTreeNode(root.RightNode, queueElement);
-                        return AppendTreeNode(root, queueElement);
-                    }
-                }
-            }
-            else
-            {
-                if (IsOperand(root.Token))
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    if (root.RightNode == null)
-                    {
-                        root.RightNode = token;
-                        queueElement.Dequeue();
-                        return AppendTreeNode(root, queueElement);
-                    }
-                    else
-                    {
-                        root.RightNode = AppendTreeNode(root.RightNode, queueElement);
-                        queueElement.Dequeue();
-                        return AppendTreeNode(root, queueElement);
-                    }
-                }
-            }
+            return result.Root;
         }
 
         /// <summary>

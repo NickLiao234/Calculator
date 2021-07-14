@@ -1,5 +1,4 @@
 using Calculator.Core;
-using Calculator.Core.Service.Calculate;
 using Calculator.Core.Services.Calculate;
 using Calculator.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;

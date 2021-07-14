@@ -1,4 +1,7 @@
-﻿namespace Calculator.Core.Operators
+﻿using Calculator.Core.Services.Calculate;
+using System;
+
+namespace Calculator.Core.Operators
 {
     /// <summary>
     /// 運算子類別
@@ -11,6 +14,40 @@
         /// <param name="value">顯示值</param>
         public OperandElement(string value) : base(value)
         {
+        }
+
+        /// <summary>
+        /// 複寫加入元素至tree方法
+        /// </summary>
+        /// <param name="result">運算結果物件</param>
+        /// <returns>結果物件</returns>
+        public override CalculateResult AppendElement(CalculateResult result)
+        {
+            if (result.Root is null)
+            {
+                result.Root = new TreeNode(this);
+                return result;
+            }
+
+            if (result.Root.Token.IsOperand())
+            {
+                throw new Exception();
+            }
+            else
+            {
+                if (result.Root.RightNode is null)
+                {
+                    result.Root.RightNode = new TreeNode(this);
+                }
+                else
+                {
+                    var tempCalculateResult = new CalculateResult();
+                    tempCalculateResult.Root = result.Root.RightNode;
+                    result.Root.RightNode = AppendElement(tempCalculateResult).Root;
+                }
+            }
+
+            return result;
         }
     }
 }
