@@ -34,6 +34,16 @@ namespace Caculator.Services
         public void AddCloseParentthesis();
 
         /// <summary>
+        /// 加入左中括號
+        /// </summary>
+        public void AddOpenBracket();
+
+        /// <summary>
+        /// 加入右中括號
+        /// </summary>
+        public void AddCloseBracket();
+
+        /// <summary>
         /// 設定運算表達式
         /// </summary>
         public void SetHistoryValue();

@@ -3,6 +3,7 @@ using Calculator.Core.Services.Calculate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Calculator.Core.Extentions;
 
 namespace Calculator.Core.Services.Calculate
 {
@@ -36,6 +37,8 @@ namespace Calculator.Core.Services.Calculate
             map.Add("/", typeof(DivideElement));
             map.Add("(", typeof(OpenParentthesisElement));
             map.Add(")", typeof(CloseParentthesisElement));
+            map.Add("[", typeof(OpenBracketElement));
+            map.Add("]", typeof(CloseBracketElement));
         }
 
         /// <summary>
@@ -145,27 +148,61 @@ namespace Calculator.Core.Services.Calculate
                 expression.RemoveAt(expression.Count - 1);
             }
 
-            return AddParentthesisToBalance(expression, openParantthesisCount, closeParantthesisCount);
+            var listObj = TransferExpressionToListObject(expression);
+            listObj = AddBracketToBalance(listObj);
+            return AddParentthesisToBalance(listObj);
         }
 
         /// <summary>
-        /// 平衡運算表達式
+        /// 平衡運算表達式(小括號)
         /// </summary>
         /// <param name="expression">表達式</param>
-        /// <param name="openParantthesisCount">左括號數量</param>
-        /// <param name="closeParantthesisCount">右括號數量</param>
         /// <returns>表達式物件List</returns>
-        private List<CalculateElementBase> AddParentthesisToBalance(List<string> expression, int openParantthesisCount, int closeParantthesisCount)
+        private List<CalculateElementBase> AddParentthesisToBalance(List<CalculateElementBase> expression)
         {
+            var openParantthesisCount = expression.Where(element => element is OpenParentthesisElement).Count();
+            var closeParantthesisCount = expression.Where(element => element is CloseParentthesisElement).Count();
             var openCloseSub = openParantthesisCount - closeParantthesisCount;
 
             while (openCloseSub != 0)
             {
-                expression.Add(")");
+                expression.Add(new CloseParentthesisElement());
                 openCloseSub--;
             }
 
-            return TransferExpressionToListObject(expression);
+            return expression;
+        }
+
+        /// <summary>
+        /// 平衡運算表達式(中括號)
+        /// </summary>
+        /// <param name="expression">表達式物件List</param>
+        /// <returns></returns>
+        private List<CalculateElementBase> AddBracketToBalance(List<CalculateElementBase> expression)
+        {
+            var diff = expression.Where(element => element is OpenBracketElement).Count() - expression.Where(element => element is CloseBracketElement).Count();
+
+            while (diff != 0)
+            {
+                var targetOpenBracketIndex = expression.FindIndexByTargetCount(0, diff, element => element is OpenBracketElement);
+                var nextOpenBracketIndex = 
+                    expression.FindIndex(targetOpenBracketIndex + 1, element => element is OpenBracketElement) == -1 ?
+                    expression.Count() - 1 :
+                    expression.FindIndex(targetOpenBracketIndex + 1, element => element is OpenBracketElement);
+
+                var openParentthesisCount = expression.CountByCondition(targetOpenBracketIndex, nextOpenBracketIndex, element => element is OpenParentthesisElement);
+                var closeParentthesisCount = expression.CountByCondition(targetOpenBracketIndex, nextOpenBracketIndex, element => element is CloseParentthesisElement);
+
+                while (openParentthesisCount - closeParentthesisCount != 0)
+                {
+                    expression.Add(new CloseParentthesisElement());
+                    closeParentthesisCount++;
+                }                
+                expression.Add(new CloseBracketElement());
+                diff--;
+            }
+
+            return expression;
         }
 
         /// <summary>

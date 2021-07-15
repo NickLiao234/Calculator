@@ -137,6 +137,8 @@ namespace Calculator
             MapMethod.Add("/", new ButtonOperators("/", editModelService, getResultByWebAPIService));
             MapMethod.Add("(", new ButtonOpenParentThesis(editModelService));
             MapMethod.Add(")", new ButtonCloseParentThesis(editModelService));
+            MapMethod.Add("[", new ButtonOpenBracket(editModelService));
+            MapMethod.Add("]", new ButtonCloseBracket(editModelService));
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Caculator.Objects.Operators;
 using Calculator;
+using Calculator.Core.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace Caculator.Services
             }
 
             var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (IsOperand(lastElement) || lastElement == ")")
+            if (IsOperand(lastElement) || lastElement == ")" || lastElement == "]")
             {
                 return;
             }
@@ -67,13 +68,13 @@ namespace Caculator.Services
             }
 
             var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (lastElement == "(")
+            if (lastElement == "(" || lastElement == "[")
             {
                 return;
             }
             if (!IsOperand(lastElement))
             {
-                if (lastElement != ")")
+                if (lastElement != ")" && lastElement != "]")
                 {
                     viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
                     return;
@@ -91,7 +92,7 @@ namespace Caculator.Services
             if (viewModel.Expression.Count != 0)
             {
                 var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-                if (IsOperand(lastElement) || lastElement == ")")
+                if (IsOperand(lastElement) || lastElement == ")" || lastElement == "]")
                 {
                     return;
                 }
@@ -116,12 +117,79 @@ namespace Caculator.Services
                 return;
             }
 
-            if (lastElement == ")" && !viewModel.IsOpenParentthesisMoreThanCloseParentThesis())
+            if (!viewModel.IsOpenParentthesisMoreThanCloseParentThesis())
             {
                 return;
             }
 
+            var diff = viewModel.Expression.Where(element => element == "(").Count() - viewModel.Expression.Where(element => element == ")").Count();
+            if (diff == -1)
+            {
+                return;
+            }
+            var targetOpenParentthesisIndex = viewModel.Expression.FindIndexByTargetCount(0, diff, element => element == "(");
+            var openBracketCount = viewModel.Expression.CountByCondition(targetOpenParentthesisIndex, viewModel.Expression.Count, element => element == "[");
+            var closeBracketCount = viewModel.Expression.CountByCondition(targetOpenParentthesisIndex, viewModel.Expression.Count, element => element == "]");
+            for (int i = 0; i < openBracketCount - closeBracketCount; i++)
+            {
+                viewModel.Expression.Add("]");
+            }
+
             viewModel.Expression.Add(")");
+        }
+
+        /// <summary>
+        /// 加入左中括號
+        /// </summary>
+        public void AddOpenBracket()
+        {
+            if (viewModel.Expression.Count != 0)
+            {
+                var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+                if (IsOperand(lastElement) || lastElement == ")" || lastElement == "]")
+                {
+                    return;
+                }
+            }
+
+            viewModel.Expression.Add("[");
+        }
+
+        /// <summary>
+        /// 加入右中括號
+        /// </summary>
+        public void AddCloseBracket()
+        {
+            if (viewModel.Expression.Count == 0)
+            {
+                return;
+            }
+
+            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
+            if (!IsOperand(lastElement) && lastElement != ")" && lastElement != "]")
+            {
+                return;
+            }
+
+            if (!viewModel.IsOpenBracketMoreThanCloseBracket())
+            {
+                return;
+            }
+
+            var diff = viewModel.Expression.Where(element => element == "[").Count() - viewModel.Expression.Where(element => element == "]").Count();
+            if (diff == -1)
+            {
+                return;
+            }
+            var targetOpenBracketIndex = viewModel.Expression.FindIndexByTargetCount(0, diff, element => element == "[");
+            var openParentthesisCount = viewModel.Expression.CountByCondition(targetOpenBracketIndex, viewModel.Expression.Count, element => element == "(");
+            var closeParentthesisCount = viewModel.Expression.CountByCondition(targetOpenBracketIndex, viewModel.Expression.Count, element => element == ")");
+            for (int i = 0; i < openParentthesisCount - closeParentthesisCount; i++)
+            {
+                viewModel.Expression.Add(")");
+            }
+
+            viewModel.Expression.Add("]");
         }
 
         /// <summary>
@@ -209,7 +277,7 @@ namespace Caculator.Services
         /// <returns></returns>
         private bool IsOperand(string lastElement)
         {
-            var listOperator = new List<string>() { "+", "-", "*", "/", "(", ")" };
+            var listOperator = new List<string>() { "+", "-", "*", "/", "(", ")", "[", "]"};
             if (listOperator.Contains(lastElement))
             {
                 return false;

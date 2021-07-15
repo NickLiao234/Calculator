@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Caculator.Objects
 {
     /// <summary>
-    /// 右括號類別
+    /// 右中括號類別
     /// </summary>
-    public class ButtonCloseParentThesis : ButtonBase
+    public class ButtonCloseBracket : ButtonBase
     {
         /// <summary>
         /// 修改ViewModel服務
@@ -21,7 +21,7 @@ namespace Caculator.Objects
         /// 初始化注入修改ViewModel服務
         /// </summary>
         /// <param name="editViewModelService">ViewModel服務</param>
-        public ButtonCloseParentThesis(IEditViewModelService editViewModelService)
+        public ButtonCloseBracket(IEditViewModelService editViewModelService)
         {
             this.editViewModelService = editViewModelService;
         }
@@ -33,7 +33,7 @@ namespace Caculator.Objects
         {
             editViewModelService.AddOperand();
             editViewModelService.SetCurrentValue("0");
-            editViewModelService.AddCloseParentthesis();
+            editViewModelService.AddCloseBracket();
             editViewModelService.SetHistoryValue();
         }
     }

@@ -104,5 +104,22 @@ namespace Calculator
 
             return false;
         }
+
+        /// <summary>
+        /// 判斷左括號是否比右括號多
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsOpenBracketMoreThanCloseBracket()
+        {
+            var openBracketCount = Expression.Where(element => element == "[").Count();
+            var CloseBracketCount = Expression.Where(element => element == "]").Count();
+
+            if (openBracketCount > CloseBracketCount)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
