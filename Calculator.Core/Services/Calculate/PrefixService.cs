@@ -28,6 +28,11 @@ namespace Calculator.Core.Services.Calculate
         /// <returns>表達式</returns>
         public override string AppendTreeNode(TreeNode tree, string str)
         {
+            if (tree is null)
+            {
+                return str;
+            }
+
             if (tree.Token is null)
             {
                 return str;

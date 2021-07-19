@@ -39,6 +39,7 @@ namespace Calculator.Core.Services.Calculate
             map.Add(")", typeof(CloseParentthesisElement));
             map.Add("[", typeof(OpenBracketElement));
             map.Add("]", typeof(CloseBracketElement));
+            map.Add("²√", typeof(SquareRootElement));
         }
 
         /// <summary>

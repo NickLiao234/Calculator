@@ -54,5 +54,10 @@ namespace Calculator.Core.Operators
         {
             return this is OperatorElement;
         }
+
+        public bool IsOperatorWithOneOperand()
+        {
+            return this is OperatorWithOneOperandElement;
+        }
     }
 }

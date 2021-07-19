@@ -49,13 +49,32 @@ namespace Calculator.Core.Operators
                 throw new Exception();
             }
 
+            if (result.Root.Token.IsOperatorWithOneOperand())
+            {
+                if (((OperatorWithOneOperandElement)result.Root.Token).Priority < this.Priority)
+                {
+                    var tempCalculateResult = new CalculateResult();
+                    tempCalculateResult.Root = result.Root.LeftNode;
+                    tempCalculateResult.PriorityLevel = result.PriorityLevel;
+                    result.Root.LeftNode = AppendElement(tempCalculateResult).Root;
+                }
+                else
+                {
+                    var token = new TreeNode(this);
+                    token.LeftNode = result.Root;
+                    result.Root = token;
+                }
+                return result;
+            }
+
             if (result.Root.Token.IsOperand())
             {
                 var token = new TreeNode(this);
                 token.LeftNode = result.Root;
                 result.Root = token;
             }
-            else
+
+            if(result.Root.Token.IsOperator())
             {
                 var operatorRootToken = result.Root.Token as OperatorElement;
                 if (this.Priority <= operatorRootToken.Priority)
@@ -72,6 +91,7 @@ namespace Calculator.Core.Operators
                     result.Root.RightNode = AppendElement(tempCalculateResult).Root;
                 }
             }
+
 
             return result;
         }

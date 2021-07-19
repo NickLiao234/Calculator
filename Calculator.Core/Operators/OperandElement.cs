@@ -29,11 +29,19 @@ namespace Calculator.Core.Operators
                 return result;
             }
 
+            if (result.Root.Token.IsOperatorWithOneOperand())
+            {
+                var tempCalculateResult = new CalculateResult();
+                tempCalculateResult.Root = result.Root.LeftNode;
+                result.Root.LeftNode = AppendElement(tempCalculateResult).Root;
+            }
+
             if (result.Root.Token.IsOperand())
             {
                 throw new Exception();
             }
-            else
+
+            if(result.Root.Token.IsOperator())
             {
                 if (result.Root.RightNode is null)
                 {
