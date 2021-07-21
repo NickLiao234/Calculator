@@ -37,8 +37,11 @@ namespace Calculator.WebAPI.Controllers
         [HttpPost("result")]
         public IActionResult GetCalculateResult(List<string> expression)
         {
+            var result = new CalculateResult();
             var service = calculateFactory.GetCalculateService(CalculateEnum.infix);
-            var result = service.GetCalculateResult(expression);
+            var validExpression = service.GetValidExpression(expression);
+            result.Result = service.GetCalculateResult(validExpression);
+            result.Expression = validExpression;
             return Ok(result);
         }
 
