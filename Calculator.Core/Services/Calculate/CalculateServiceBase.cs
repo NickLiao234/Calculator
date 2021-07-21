@@ -112,8 +112,7 @@ namespace Calculator.Core.Services.Calculate
                     var op = expressionTreeNode.Token as OperatorWithOneOperandElement;
                     var oprandLeft = GetResult(expressionTreeNode.LeftNode);
                     return op.Calculate(oprandLeft);
-                }
-                
+                }              
             }
         }
 
@@ -182,21 +181,18 @@ namespace Calculator.Core.Services.Calculate
         /// <returns>合法表達式物件List</returns>
         protected List<CalculateElementBase> GetValidAndBalanceExpression(List<string> expression)
         {
-            var openParantthesisCount = expression.Where(item => item == "(").Count();
-            var closeParantthesisCount = expression.Where(item => item == ")").Count();
-            var openCloseCount = openParantthesisCount - closeParantthesisCount;
-
             if (expression.Contains("="))
             {
                 expression.Remove("=");
             }
 
-            while (IsOperator(expression[expression.Count - 1]))
-            {
-                expression.RemoveAt(expression.Count - 1);
-            }
-
             var listObj = TransferExpressionToListObject(expression);
+
+            while (listObj[listObj.Count - 1].IsOperator())
+            {
+                listObj.RemoveAt(listObj.Count - 1);
+            }
+            
             listObj = AddBracketToBalance(listObj);
             return AddParentthesisToBalance(listObj);
         }
@@ -270,21 +266,6 @@ namespace Calculator.Core.Services.Calculate
         }
 
         /// <summary>
-        /// 判斷運算子
-        /// </summary>
-        /// <param name="str">字串</param>
-        /// <returns></returns>
-        private bool IsOperator(string str)
-        {
-            if (str == "+" || str == "-" || str == "*" || str == "/")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// 找到右括號相對的左括號index, 若無則回應-1
         /// </summary>
         /// <typeparam name="TOpen">左括號型別</typeparam>
@@ -322,6 +303,10 @@ namespace Calculator.Core.Services.Calculate
         /// <returns></returns>
         private List<CalculateElementBase> FixOperatorWithOneOperandElementPosition(List<CalculateElementBase> expression)
         {
+            if (expression.Count < 2)
+            {
+                return expression;
+            }
             var lastElement = expression[expression.Count - 1];
             var lastTwoElement = expression[expression.Count - 2];
             int index = expression.Count - 2;
@@ -354,25 +339,52 @@ namespace Calculator.Core.Services.Calculate
         private List<CalculateElementBase> BalanceCurrentOpenClose(List<CalculateElementBase> expression)
         {
             var lastElement = expression[expression.Count - 1];
-            int index = -1;
+            int index = -2;
 
             if (!(lastElement is OpenCloseElement))
             {
                 return expression;
             }
-            
-            if (lastElement is CloseBracketElement)
+
+            if (expression.Count == 1 && (lastElement is OpenParentthesisElement || lastElement is OpenBracketElement))
             {
-                index = FindOppositeOpenElementIndex<OpenBracketElement, CloseBracketElement>(expression, expression.Count - 1);
+                return expression;
             }
-            if (lastElement is CloseParentthesisElement)
+
+            var beforeLastElement = expression[expression.Count - 2];
+
+            if (lastElement is OpenBracketElement || lastElement is OpenParentthesisElement)
             {
-                index = FindOppositeOpenElementIndex<OpenParentthesisElement, CloseParentthesisElement>(expression, expression.Count - 1);
+                if (!beforeLastElement.IsOperator())
+                {
+                    expression.RemoveAt(expression.Count - 1);
+                }
+            }
+
+            if (lastElement is CloseBracketElement || lastElement is CloseParentthesisElement)
+            {
+                if (!beforeLastElement.IsOperand())
+                {
+                    expression.RemoveAt(expression.Count - 1);
+                    return expression;
+                }
+                if (lastElement is CloseBracketElement)
+                {
+                    index = FindOppositeOpenElementIndex<OpenBracketElement, CloseBracketElement>(expression, expression.Count - 1);
+                }
+                if (lastElement is CloseParentthesisElement)
+                {
+                    index = FindOppositeOpenElementIndex<OpenParentthesisElement, CloseParentthesisElement>(expression, expression.Count - 1);
+                } 
             }
 
             if (index == -1)
             {
                 expression.RemoveAt(expression.Count - 1);
+                return expression;
+            }
+            if (index == -2)
+            {
                 return expression;
             }
 

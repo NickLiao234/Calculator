@@ -37,12 +37,24 @@ namespace Calculator.WebAPI.Controllers
         [HttpPost("result")]
         public IActionResult GetCalculateResult(List<string> expression)
         {
-            var result = new CalculateResult();
             var service = calculateFactory.GetCalculateService(CalculateEnum.infix);
             var validExpression = service.GetValidExpression(expression);
-            result.Result = service.GetCalculateResult(validExpression);
-            result.Expression = validExpression;
+            var result = service.GetCalculateResult(validExpression);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// 取得目前合法表達式方法
+        /// </summary>
+        /// <param name="expression">表達式字串</param>
+        /// <returns>合法表達式字串</returns>
+        [HttpPost("currentExpression")]
+        public IActionResult GetCurrentExpression(List<string> expression)
+        {
+            var service = calculateFactory.GetCalculateService(CalculateEnum.infix);
+            var validExpression = service.GetValidExpression(expression);
+
+            return Ok(validExpression);
         }
 
         /// <summary>

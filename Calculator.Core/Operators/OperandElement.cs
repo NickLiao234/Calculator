@@ -41,7 +41,7 @@ namespace Calculator.Core.Operators
                 throw new Exception();
             }
 
-            if(result.Root.Token.IsOperator())
+            if (result.Root.Token.IsOperator())
             {
                 if (result.Root.RightNode is null)
                 {

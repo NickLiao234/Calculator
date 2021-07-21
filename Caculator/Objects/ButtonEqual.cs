@@ -59,13 +59,14 @@ namespace Caculator.Objects
         public override async void Excute()
         {
             editViewModelService.AddOperand();
-            editViewModelService.AddOperator("=");
+            editViewModelService.AddOperator("=");            
+            var result = await getResultByWebAPIService.GetResultAsync();
+            var expression = await getResultByWebAPIService.GetCurrentExpression();
             string historyValue = "";
-            foreach (var item in viewModel.Expression)
+            foreach (var item in expression)
             {
                 historyValue += $"{item} ";
             }
-            var result = await getResultByWebAPIService.GetResultAsync();
             var postfix = await getResultByWebAPIService.GetPostfixAsync();
             var prefix = await getResultByWebAPIService.GetPrefixAsync();
             var infix = await getResultByWebAPIService.GetInfixAsync();

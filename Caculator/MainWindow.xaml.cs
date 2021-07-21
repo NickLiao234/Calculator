@@ -129,16 +129,16 @@ namespace Calculator
             MapMethod.Add("C", new ButtonClear(clearService));
             MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
             MapMethod.Add("back", new ButtonBack(backService, editModelService));
-            MapMethod.Add("²√", new ButtonSquareRoot(squareRootService, editModelService, clearService));
+            MapMethod.Add("²√", new ButtonSquareRoot(squareRootService, editModelService, clearService, getResultByWebAPIService));
             MapMethod.Add("=", new ButtonEqual(editModelService, clearService, getResultByWebAPIService, calculateViewmodel));
             MapMethod.Add("+", new ButtonOperators("+", editModelService, getResultByWebAPIService));
             MapMethod.Add("-", new ButtonOperators("-", editModelService, getResultByWebAPIService));
             MapMethod.Add("*", new ButtonOperators("*", editModelService, getResultByWebAPIService));
             MapMethod.Add("/", new ButtonOperators("/", editModelService, getResultByWebAPIService));
-            MapMethod.Add("(", new ButtonOpenParentThesis(editModelService));
-            MapMethod.Add(")", new ButtonCloseParentThesis(editModelService));
-            MapMethod.Add("[", new ButtonOpenBracket(editModelService));
-            MapMethod.Add("]", new ButtonCloseBracket(editModelService));
+            MapMethod.Add("(", new ButtonOpenParentThesis(editModelService, getResultByWebAPIService));
+            MapMethod.Add(")", new ButtonCloseParentThesis(editModelService, getResultByWebAPIService));
+            MapMethod.Add("[", new ButtonOpenBracket(editModelService, getResultByWebAPIService));
+            MapMethod.Add("]", new ButtonCloseBracket(editModelService, getResultByWebAPIService));
         }
 
         /// <summary>

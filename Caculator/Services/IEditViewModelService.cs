@@ -82,5 +82,11 @@ namespace Caculator.Services
         /// </summary>
         /// <param name="value">表達式字串</param>
         public void SetInfixValue(string value);
+
+        /// <summary>
+        /// 設定表達式字串
+        /// </summary>
+        /// <param name="expression">表達式字串</param>
+        public void SetExpressionList(List<string> expression);
     }
 }

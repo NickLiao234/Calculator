@@ -55,6 +55,10 @@ namespace Calculator.Core.Operators
             return this is OperatorElement;
         }
 
+        /// <summary>
+        /// 判斷是否為單一運算元的運算子
+        /// </summary>
+        /// <returns>bool</returns>
         public bool IsOperatorWithOneOperand()
         {
             return this is OperatorWithOneOperandElement;

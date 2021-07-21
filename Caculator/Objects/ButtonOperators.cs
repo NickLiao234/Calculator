@@ -52,6 +52,8 @@ namespace Caculator.Objects
         {
             modelService.AddOperand();
             var result = await getResultByWebAPIService.GetResultAsync();
+            var expression = await getResultByWebAPIService.GetCurrentExpression();
+            modelService.SetExpressionList(expression);
             modelService.SetCurrentValue(result);
             modelService.AddOperator(value);
             modelService.ClearCurrentValue();

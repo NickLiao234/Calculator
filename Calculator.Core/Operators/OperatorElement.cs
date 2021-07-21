@@ -72,16 +72,19 @@ namespace Calculator.Core.Operators
                 var token = new TreeNode(this);
                 token.LeftNode = result.Root;
                 result.Root = token;
+                return result;
             }
 
-            if(result.Root.Token.IsOperator())
+            if (result.Root.Token.IsOperator())
             {
                 var operatorRootToken = result.Root.Token as OperatorElement;
+
                 if (this.Priority <= operatorRootToken.Priority)
                 {
                     var token = new TreeNode(this);
                     token.LeftNode = result.Root;
                     result.Root = token;
+                    return result;
                 }
                 else
                 {
@@ -91,8 +94,6 @@ namespace Calculator.Core.Operators
                     result.Root.RightNode = AppendElement(tempCalculateResult).Root;
                 }
             }
-
-
             return result;
         }
     }

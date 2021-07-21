@@ -48,6 +48,30 @@ namespace Caculator.Services
         }
 
         /// <summary>
+        /// 取得目前合法表達式
+        /// </summary>
+        /// <returns>合法表達式字串</returns>
+        public async Task<List<string>> GetCurrentExpression()
+        {
+            var expression = viewModel.Expression;
+            var result = new List<string>();
+            var requestBody = new StringContent(
+                JsonSerializer.Serialize(expression),
+                Encoding.UTF8,
+                "application/json");
+
+            var client = httpClient.CreateClient("CalculateService");
+
+            var response = await client.PostAsync("currentExpression", requestBody);
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+
+            result = await JsonSerializer.DeserializeAsync<List<string>>(responseStream);
+
+            return result;
+        }
+
+        /// <summary>
         /// 取得中序表達式
         /// </summary>
         /// <returns>表達式</returns>
@@ -108,10 +132,7 @@ namespace Caculator.Services
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
-                    //var returnDataStream = await response.Content.ReadAsStreamAsync();
-                    //var returnData = await JsonSerializer.DeserializeAsync<Result>(returnDataStream);
-                    //result = returnData.Messages;
-                    result = await response.Content.ReadAsStringAsync();                   
+                    result = await response.Content.ReadAsStringAsync();
                 }
                 else
                 {

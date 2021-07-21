@@ -67,20 +67,6 @@ namespace Caculator.Services
                 return;
             }
 
-            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (lastElement == "(" || lastElement == "[")
-            {
-                return;
-            }
-            if (!IsOperand(lastElement))
-            {
-                if (lastElement != ")" && lastElement != "]")
-                {
-                    viewModel.Expression.RemoveAt(viewModel.Expression.Count - 1);
-                    return;
-                }               
-            }
-
             viewModel.Expression.Add(value);
         }
 
@@ -89,15 +75,6 @@ namespace Caculator.Services
         /// </summary>
         public void AddOpenParentthesis()
         {
-            if (viewModel.Expression.Count != 0)
-            {
-                var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-                if (IsOperand(lastElement) || lastElement == ")" || lastElement == "]")
-                {
-                    return;
-                }
-            }
-
             viewModel.Expression.Add("(");
         }
 
@@ -111,30 +88,6 @@ namespace Caculator.Services
                 return;
             }
 
-            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (!IsOperand(lastElement) && lastElement != ")")
-            {
-                return;
-            }
-
-            if (!viewModel.IsOpenParentthesisMoreThanCloseParentThesis())
-            {
-                return;
-            }
-
-            var diff = viewModel.Expression.Where(element => element == "(").Count() - viewModel.Expression.Where(element => element == ")").Count();
-            if (diff == -1)
-            {
-                return;
-            }
-            var targetOpenParentthesisIndex = viewModel.Expression.FindIndexByTargetCount(0, diff, element => element == "(");
-            var openBracketCount = viewModel.Expression.CountByCondition(targetOpenParentthesisIndex, viewModel.Expression.Count, element => element == "[");
-            var closeBracketCount = viewModel.Expression.CountByCondition(targetOpenParentthesisIndex, viewModel.Expression.Count, element => element == "]");
-            for (int i = 0; i < openBracketCount - closeBracketCount; i++)
-            {
-                viewModel.Expression.Add("]");
-            }
-
             viewModel.Expression.Add(")");
         }
 
@@ -143,15 +96,6 @@ namespace Caculator.Services
         /// </summary>
         public void AddOpenBracket()
         {
-            if (viewModel.Expression.Count != 0)
-            {
-                var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-                if (IsOperand(lastElement) || lastElement == ")" || lastElement == "]")
-                {
-                    return;
-                }
-            }
-
             viewModel.Expression.Add("[");
         }
 
@@ -163,30 +107,6 @@ namespace Caculator.Services
             if (viewModel.Expression.Count == 0)
             {
                 return;
-            }
-
-            var lastElement = viewModel.Expression[viewModel.Expression.Count - 1];
-            if (!IsOperand(lastElement) && lastElement != ")" && lastElement != "]")
-            {
-                return;
-            }
-
-            if (!viewModel.IsOpenBracketMoreThanCloseBracket())
-            {
-                return;
-            }
-
-            var diff = viewModel.Expression.Where(element => element == "[").Count() - viewModel.Expression.Where(element => element == "]").Count();
-            if (diff == -1)
-            {
-                return;
-            }
-            var targetOpenBracketIndex = viewModel.Expression.FindIndexByTargetCount(0, diff, element => element == "[");
-            var openParentthesisCount = viewModel.Expression.CountByCondition(targetOpenBracketIndex, viewModel.Expression.Count, element => element == "(");
-            var closeParentthesisCount = viewModel.Expression.CountByCondition(targetOpenBracketIndex, viewModel.Expression.Count, element => element == ")");
-            for (int i = 0; i < openParentthesisCount - closeParentthesisCount; i++)
-            {
-                viewModel.Expression.Add(")");
             }
 
             viewModel.Expression.Add("]");
@@ -285,5 +205,14 @@ namespace Caculator.Services
 
             return true;
         }      
+
+        /// <summary>
+        /// 設定表達式字串
+        /// </summary>
+        /// <param name="expression">表達式字串</param>
+        public void SetExpressionList(List<string> expression)
+        {
+            viewModel.Expression = expression;
+        }
     }
 }

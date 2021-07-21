@@ -15,6 +15,12 @@ namespace Caculator.Services
         public Task<string> GetResultAsync();
 
         /// <summary>
+        /// 取得目前合法表達式
+        /// </summary>
+        /// <returns>表達式字串</returns>
+        public Task<List<string>> GetCurrentExpression();
+
+        /// <summary>
         /// 取得中序表達式
         /// </summary>
         /// <returns>表達式</returns>
