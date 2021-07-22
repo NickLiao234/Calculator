@@ -23,11 +23,6 @@ namespace Caculator.Objects
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
-        /// 清除服務
-        /// </summary>
-        private readonly IClearService clearService;
-
-        /// <summary>
         /// 透過API取得結果服務
         /// </summary>
         private readonly IGetResultByWebAPIService getResultByWebAPIService;
@@ -37,17 +32,14 @@ namespace Caculator.Objects
         /// </summary>
         /// <param name="squareRootService">開根號服務</param>
         /// <param name="editViewModelService">editViewModelService</param>
-        /// <param name="clearService">清除服務</param>
         /// <param name="getResultByWebAPIService">透過API取得結果服務</param>
         public ButtonSquareRoot(
             ISquareRootService squareRootService, 
             IEditViewModelService editViewModelService, 
-            IClearService clearService,
             IGetResultByWebAPIService getResultByWebAPIService)
         {
             this.squareRootService = squareRootService;
             this.editViewModelService = editViewModelService;
-            this.clearService = clearService;
             this.getResultByWebAPIService = getResultByWebAPIService;
         }
 
@@ -56,15 +48,6 @@ namespace Caculator.Objects
         /// </summary>
         public override async void Excute()
         {
-            //try
-            //{
-            //    squareRootService.SquareRoot();
-            //}
-            //catch (Exception ex)
-            //{
-            //    clearService.Clear();
-            //    editViewModelService.SetCurrentValue(ex.Message);
-            //}
             editViewModelService.AddOperand();
             editViewModelService.AddOperator("²√");
             var result = await getResultByWebAPIService.GetResultAsync();

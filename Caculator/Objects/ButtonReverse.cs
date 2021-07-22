@@ -13,34 +13,40 @@ namespace Caculator.Objects
     public class ButtonReverse : ButtonBase
     {
         /// <summary>
-        /// appendService
-        /// </summary>
-        private readonly IReverseService reverseService;
-
-        /// <summary>
         /// editViewModelService
         /// </summary>
         private readonly IEditViewModelService editViewModelService;
 
         /// <summary>
-        /// 建構式注入appendService
+        /// API取得結果服務
         /// </summary>
-        /// <param name="reverseService">reverseService</param>
+        private readonly IGetResultByWebAPIService getResultByWebAPIService;
+
+        /// <summary>
+        /// 建構式注入服務
+        /// </summary>
         /// <param name="editViewModelService">editViewModelService</param>
+        /// <param name="getResultByWebAPIService">API取得結果服務</param>
         public ButtonReverse(
-            IReverseService reverseService,
-            IEditViewModelService editViewModelService)
+            IEditViewModelService editViewModelService,
+            IGetResultByWebAPIService getResultByWebAPIService)
         {
-            this.reverseService = reverseService;
             this.editViewModelService = editViewModelService;
+            this.getResultByWebAPIService = getResultByWebAPIService;
         }
 
         /// <summary>
         /// 執行方法
         /// </summary>
-        public override void Excute()
+        public override async void Excute()
         {
-            reverseService.Reverse();
+            editViewModelService.AddOperand();
+            editViewModelService.AddOperator("negate");
+            var result = await getResultByWebAPIService.GetResultAsync();
+            var expression = await getResultByWebAPIService.GetCurrentExpression();
+            editViewModelService.SetExpressionList(expression);
+            editViewModelService.SetCurrentValue(result);
+            editViewModelService.ClearCurrentValue();
             editViewModelService.SetHistoryValue();
         }
     }

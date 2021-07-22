@@ -40,6 +40,7 @@ namespace Calculator.Core.Services.Calculate
             map.Add("[", typeof(OpenBracketElement));
             map.Add("]", typeof(CloseBracketElement));
             map.Add("²√", typeof(SquareRootElement));
+            map.Add("negate", typeof(NegateElement));
         }
 
         /// <summary>
@@ -308,10 +309,11 @@ namespace Calculator.Core.Services.Calculate
                 return expression;
             }
             var lastElement = expression[expression.Count - 1];
+            var lastElementIndex = expression.Count - 1;
             var lastTwoElement = expression[expression.Count - 2];
             int index = expression.Count - 2;
 
-            if (!(lastElement is OperatorWithOneOperandElement))
+            if (lastElement is not OperatorWithOneOperandElement)
             {
                 return expression;
             }
@@ -325,9 +327,14 @@ namespace Calculator.Core.Services.Calculate
                 index = FindOppositeOpenElementIndex<OpenBracketElement, CloseBracketElement>(expression, expression.Count - 2);
             }
 
-            expression.Insert(index, lastElement);
-            expression.RemoveAt(expression.Count - 1);
+            if (expression[index - 1] is OperatorWithOneOperandElement)
+            {
+                index = index - 1;
+            }
 
+            expression[lastElementIndex] = new CloseParentthesisElement();
+            expression.Insert(index, new OpenParentthesisElement());
+            expression.Insert(index, lastElement);           
             return expression;
         }
 
@@ -363,7 +370,7 @@ namespace Calculator.Core.Services.Calculate
 
             if (lastElement is CloseBracketElement || lastElement is CloseParentthesisElement)
             {
-                if (!beforeLastElement.IsOperand())
+                if (!beforeLastElement.IsOperand() && !beforeLastElement.IsOpenCloseElement())
                 {
                     expression.RemoveAt(expression.Count - 1);
                     return expression;

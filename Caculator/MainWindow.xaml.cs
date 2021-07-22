@@ -125,11 +125,11 @@ namespace Calculator
             MapMethod.Add("8", new ButtonOperand("8", appendNumberService, editModelService));
             MapMethod.Add("9", new ButtonOperand("9", appendNumberService, editModelService));
             MapMethod.Add(".", new ButtonOperand(".", appendNumberService, editModelService));
-            MapMethod.Add("+-", new ButtonReverse(reverseService, editModelService));
+            MapMethod.Add("+-", new ButtonReverse(editModelService, getResultByWebAPIService));
             MapMethod.Add("C", new ButtonClear(clearService));
             MapMethod.Add("CE", new ButtonClearCurrent(clearCurrentService));
             MapMethod.Add("back", new ButtonBack(backService, editModelService));
-            MapMethod.Add("²√", new ButtonSquareRoot(squareRootService, editModelService, clearService, getResultByWebAPIService));
+            MapMethod.Add("²√", new ButtonSquareRoot(squareRootService, editModelService, getResultByWebAPIService));
             MapMethod.Add("=", new ButtonEqual(editModelService, clearService, getResultByWebAPIService, calculateViewmodel));
             MapMethod.Add("+", new ButtonOperators("+", editModelService, getResultByWebAPIService));
             MapMethod.Add("-", new ButtonOperators("-", editModelService, getResultByWebAPIService));
